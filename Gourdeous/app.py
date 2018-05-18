@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, redirect
 
 app = Flask(__name__)
 #app = Flask(__name__)
@@ -7,7 +7,11 @@ wsgi_app = app.wsgi_app
 
 
 @app.route('/')
-def hello_world():
+def index():
+    return redirect(url_for('home'))
+
+@app.route('/home')
+def home():
     return render_template('home.html')
 
 

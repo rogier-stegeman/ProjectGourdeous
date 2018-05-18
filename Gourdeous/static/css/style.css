@@ -1,0 +1,22 @@
+#home{
+    color: #77006d;
+}
+
+#content{
+    overflow: hidden;
+    margin: 0 auto 0 auto;
+    background: lightgray;
+    border-left-width: 150px;
+}
+
+#content h1 p{
+    color: #9C1A1C;
+}
+
+#sidebar{
+    float: left;
+    width: 150px;
+    color: #177199;
+    background-color: #9b3d34;
+    height:100vh;
+}

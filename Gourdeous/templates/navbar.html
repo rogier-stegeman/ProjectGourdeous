@@ -1,11 +1,9 @@
 {% block  navbar %}
 <nav id="navbar">
     <ul>
-        <li>
-            <li><a href="/home/">Home</a></li>
-            <li><a href="/sunburst/">Sunburst</a></li>
-            <li><a href="/help/">Help</a></li>
-        </li>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('sunburst') }}">Sunburst</a></li>
+        <li><a href="{{ url_for('helppage') }}">Help</a></li>
     </ul>
 </nav>
 {% endblock %}
