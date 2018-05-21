@@ -6,7 +6,7 @@
     overflow: hidden;
     margin: 0 auto 0 auto;
     background: lightgray;
-    border-left-width: 150px;
+    border-left: solid 150px;
 }
 
 #content h1 p{
@@ -14,9 +14,12 @@
 }
 
 #sidebar{
-    float: left;
+    /*float: left;*/
     width: 150px;
     color: #177199;
     background-color: #9b3d34;
-    height:100vh;
+    /* height:100vh; */
+    /*bottom: 0px;*/
+    position: absolute;
+    left: 0px;
 }
