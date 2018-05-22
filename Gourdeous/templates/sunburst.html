@@ -2,7 +2,14 @@
 {% block title %}Sunburst graph{% endblock %}
 
 {% block content %}
-<div><img name="full.png" src="full.png"></div>
-<script src="d3.min.js"></script>
-<script src="app.min.js"></script>
+    <script src="//d3js.org/d3.v3.min.js"></script>
+    <div id="sunburst">
+        <svg>
+
+        </svg>
+        <script src="{{ url_for('static', filename='js/burst.js') }}"></script>
+    </div>
+    {% block scripts %}
+        <!--<script src="{{ url_for('static', filename='js/app.min.js') }}"></script>-->
+    {% endblock %}
 {% endblock %}
