@@ -1,17 +1,31 @@
 <!doctype html>
 <html>
-  <head>
-    {% block head %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>{% block title %}{% endblock %} - My Webpage</title>
-    {% endblock %}
-  </head>
-  <body>
-    <div id="content">{% block content %}{% endblock %}</div>
-    <div id="footer">
-      {% block footer %}
-      &copy; Copyright 2010 by <a href="http://domain.invalid/">you</a>.
-      {% endblock %}
-    </div>
-  </body>
+    <head>
+        {% block head %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+            <title>{% block title %}{% endblock %} - Gourdeous</title>
+        {% endblock %}
+    </head>
+    <body>
+        <div id="page">
+            <div id="header">
+            	<div class="title">Gourdeous</div>
+                <div class="subText">A textmining application</div>
+            </div>
+            {% block navbar %}
+                {% include "navbar.html" %}
+            {% endblock %}
+            <div id="pagecontent">
+                <div id="content">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            {% block footer %}
+                <a href="http://www.aszx.net">template </a> by <a href="http://www.bryantsmith.com">bryant smith</a>
+            {% endblock %}
+        </div>
+        {% block scripts %} {% endblock %}
+    </body>
 </html>
