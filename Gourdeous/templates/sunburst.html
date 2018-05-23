@@ -5,8 +5,13 @@
     Sunburst here
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <div id="sunburst">
+    <div id="vis">
+    </div>
         <script src="{{ url_for('static', filename='js/burst.js') }}"></script>
     </div>
+    <script>
+  if (top != self) top.location.replace(location);
+</script>
     {% block scripts %}
     {% endblock %}
 {% endblock %}
