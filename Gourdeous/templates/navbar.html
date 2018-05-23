@@ -1,7 +1,10 @@
 {% block  navbar %}
     <div id="bar">
-        <div class="menuLink"><a href="{{ url_for('home') }}">Home</a></div>
-        <div class="menuLink"><a href="{{ url_for('sunburst') }}">Sunburst</a></div>
-        <div class="menuLink"><a href="{{ url_for('helppage') }}">Help</a></div>
+    <ul id="menu">
+          <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
+          <li class="selected"><a href="{{ url_for('home') }}">Home</a></li>
+          <li><a href="{{ url_for('sunburst') }}">Sunburst</a></li>
+          <li><a href="{{ url_for('helppage') }}">Help</a></li>
+        </ul>
     </div>
 {% endblock %}
