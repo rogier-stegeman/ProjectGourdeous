@@ -7,20 +7,25 @@
         {% endblock %}
     </head>
     <body>
-        {% block navbar %}
-            {% include "navbar.html" %}
-        {% endblock %}
-        <div id="sidebar">
-            sidebar test
-        </div>
-        <div id="content">
-            {% block content %}{% endblock %}
+        <div id="page">
+            <div id="header">
+            	<div class="title">Gourdeous</div>
+                <div class="subText">A textmining application</div>
+            </div>
+            {% block navbar %}
+                {% include "navbar.html" %}
+            {% endblock %}
+            <div id="pagecontent">
+                <div id="content">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
         </div>
         <div id="footer">
             {% block footer %}
-                &copy; Copyright 2018 by <a href="http://domain.invalid/">???</a>.
+                <a href="http://www.aszx.net">template </a> by <a href="http://www.bryantsmith.com">bryant smith</a>
             {% endblock %}
         </div>
-    {% block scripts %} {% endblock %}
+        {% block scripts %} {% endblock %}
     </body>
 </html>
