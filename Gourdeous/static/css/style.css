@@ -290,6 +290,14 @@ table tr td
   color: #47433F;
   border-top: 1px solid #FFF;}
 
+#Gourdon{
+    display: inline;
+    font-size: 300%;
+    font-weight: bold;
+}
+
+
+
 /* Sunburst css */
 
 path {

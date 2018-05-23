@@ -1,8 +1,7 @@
 {% extends 'layout.html' %}
-{% block title %}Sunburst graph{% endblock %}
+{% block title %}{% block title1 %}Sun{% endblock %}{% block title2 %}burst{% endblock %}{% endblock %}
 
 {% block content %}
-    Sunburst here:
     <p>Please insert search terms.</p>
     <form >
         <input type="text" name="search1" value="searchterm1">
