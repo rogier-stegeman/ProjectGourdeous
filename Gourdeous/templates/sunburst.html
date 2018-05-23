@@ -2,7 +2,14 @@
 {% block title %}Sunburst graph{% endblock %}
 
 {% block content %}
-    Sunburst here
+    Sunburst here:
+    <p>Please insert search terms.</p>
+    <form >
+        <input type="text" name="search1" value="searchterm1">
+        <input type="text" name="search2" value="searchterm2">
+        <input type="text" name="search3" value="searchterm3">
+        <input type="submit" name="submitter" value="sendOff"> <!-- functie onclick="runBurst(this)"toevoegen dat de sunburst word gestart-->
+    </form>
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <div id="sunburst">
         <script src="https://d3js.org/d3.v3.min.js"></script>
