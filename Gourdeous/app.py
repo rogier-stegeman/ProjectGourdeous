@@ -17,7 +17,10 @@ def home():
 
 @app.route('/sunburst')
 def sunburst():
-    return render_template("sunburst.html")
+    organisms = ['bitter gourd', 'yam']
+    compounds = ['fatty acid', 'insulin', 'cholesterol', 'sugar']
+    health_effects = ['diabetic', 'cancer', 'weigth loss']
+    return render_template("sunburst.html", organisms=organisms, compounds=compounds, health_effects=health_effects)
 
 
 @app.route('/help')

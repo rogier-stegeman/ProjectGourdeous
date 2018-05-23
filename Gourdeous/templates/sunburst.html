@@ -11,6 +11,23 @@
             <input type="text" name="search3" value="searchterm3">
             <input type="submit" name="submitter" value="sendOff"> <!-- functie onclick="runBurst(this)"toevoegen dat de sunburst word gestart-->
         </form>
+        <form>
+            <select name= organisms method="GET" action="/sunburst">
+                {% for organism in organisms %}
+                <option value= "{{organism}}" SELECTED>{{organism}}</option>"
+                {% endfor %}
+            </select>
+            <select name= compounds method="GET" action="/sunburst">
+                {% for compound in compounds %}
+                <option value= "{{compound}}" SELECTED>{{compound}}</option>"
+                {% endfor %}
+            </select>
+            <select name= health_effects method="GET" action="/sunburst">
+                {% for health_effect in health_effects %}
+                <option value= "{{health_effect}}" SELECTED>{{health_effect}}</option>"
+                {% endfor %}
+            </select>
+        </form>
     </center>
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <div id="sunburst">
