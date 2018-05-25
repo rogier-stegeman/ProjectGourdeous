@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block title %}{% block title1 %}Sun{% endblock %}{% block title2 %}burst{% endblock %}{% endblock %}
+
+{% block content %}
+    <p>Please insert search terms.</p>
+    <form >
+        <input type="text" name="search1" value="searchterm1">
+        <input type="text" name="search2" value="searchterm2">
+        <input type="text" name="search3" value="searchterm3">
+        <input type="submit" name="submitter" value="sendOff"> <!-- functie onclick="runBurst(this)"toevoegen dat de sunburst word gestart-->
+    </form>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+        <div id="sunburst">
+            <div id="vis"></div>
+            <script src="{{ url_for('static', filename='js/burst.js') }}"></script>
+        </div>
+    </div>
+    {% block scripts %}
+        <!--<script src="{{ url_for('static', filename='js/app.min.js') }}"></script>-->
+    {% endblock %}
+{% endblock %}
