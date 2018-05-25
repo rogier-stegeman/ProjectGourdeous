@@ -20,8 +20,7 @@ img
 h1, h2, h3, h4, h5, h6 
 { font: normal 175% 'century gothic', arial, sans-serif;
   color: #43423F;
-  margin: 0 0 15px 0;
-  padding: 15px 0 5px 0;}
+  padding: 5px 0 5px 0;}
 
 h2
 { font: normal 175% 'century gothic', arial, sans-serif;
@@ -200,8 +199,8 @@ ul#menu li a:hover, ul#menu li.selected a, ul#menu li.selected a:hover
   line-height: 1.5em;}
 
 #footer
-{ width: 878px;
-  font: normal 100% 'lucida sans unicode', arial, sans-serif;
+{ width: 874px;
+  font: normal 60% 'lucida sans unicode', arial, sans-serif;
   height: 33px;
   padding: 24px 0 5px 0;
   text-align: center; 
@@ -289,6 +288,39 @@ table tr td
 { background: #F0EFE2;
   color: #47433F;
   border-top: 1px solid #FFF;}
+
+#Gourdon{
+    display: inline;
+    font-size: 300%;
+    font-weight: bold;
+}
+
+#cook-top {
+    height: 400px;
+    width: 878px;
+    position: relative;
+    right: 26px;
+    line-height: 400px;
+
+}
+
+#cook-top-bg{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: #F0EFE2 url(../imgs/kitchen.jpg) no-repeat;
+    background-size: 100% auto;
+    opacity: 0.4;
+}
+#gordon-pic{
+    width: 300px;
+    height: auto;
+    float: right;
+    padding-top: 20px;
+    padding-right: 30px;
+    opacity: initial;
+}
+
 
 /* Sunburst css */
 
