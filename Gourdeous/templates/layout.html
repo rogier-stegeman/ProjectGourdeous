@@ -29,6 +29,8 @@
     </div>
     <div id="site_content">
       <di8v id="content">
+        {{ request.path }}
+      {% if request.path=="/help" %}HELPHELPEPL{% endif %}
         {% block content %}{% endblock %}
       </di8v>
     </div>
