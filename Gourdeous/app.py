@@ -25,5 +25,10 @@ def helppage():
     return render_template("help.html")
 
 
+@app.route('/cook')
+def cook():
+    return render_template("cook.html")
+
+
 if __name__ == '__main__':
     app.run(debug=True)
