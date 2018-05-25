@@ -17,7 +17,12 @@ def home():
 
 @app.route('/sunburst')
 def sunburst():
-    return render_template("sunburst.html")
+    organisms = ['bitter gourd', 'yam', 'Momordica charantia', 'Dioscorea batatas']
+    compounds = ['fatty acid', 'insulin', 'cholesterol', 'sugar', 'glucose', 'vitamin A', 'vitamin B', 'vitamin C',
+                 'vitamin E', 'calcium', 'iron', 'potassium']
+    health_effects = ['diabetes', 'cancer', 'weigth loss', 'cough', 'wounds', 'rheumatism', 'laxative', 'diarrhea',
+                      'abdominal pain', 'fever', 'hypoglycemia', 'urinary incontinence', 'chest pain', 'miscarriage']
+    return render_template("sunburst.html", organisms=organisms, compounds=compounds, health_effects=health_effects)
 
 
 @app.route('/help')

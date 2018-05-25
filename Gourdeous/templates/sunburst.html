@@ -1,14 +1,34 @@
 {% extends 'layout.html' %}
-{% block title %}{% block title1 %}Sun{% endblock %}{% block title2 %}burst{% endblock %}{% endblock %}
+{% block title %}Sunburst graph{% endblock %}
 
 {% block content %}
-    <p>Please insert search terms.</p>
-    <form >
-        <input type="text" name="search1" value="searchterm1">
-        <input type="text" name="search2" value="searchterm2">
-        <input type="text" name="search3" value="searchterm3">
-        <input type="submit" name="submitter" value="sendOff"> <!-- functie onclick="runBurst(this)"toevoegen dat de sunburst word gestart-->
-    </form>
+    Sunburst here
+    <center>
+        <p>Please insert searchterms.</p>
+        <form >
+            <input type="text" name="search1" value="searchterm1">
+            <input type="text" name="search2" value="searchterm2">
+            <input type="text" name="search3" value="searchterm3">
+            <input type="submit" name="submitter" value="sendOff"> <!-- functie onclick="runBurst(this)"toevoegen dat de sunburst word gestart-->
+        </form>
+        <form>
+            <select name= organisms method="GET" action="/sunburst">
+                {% for organism in organisms %}
+                <option value= "{{organism}}" SELECTED>{{organism}}</option>"
+                {% endfor %}
+            </select>
+            <select name= compounds method="GET" action="/sunburst">
+                {% for compound in compounds %}
+                <option value= "{{compound}}" SELECTED>{{compound}}</option>"
+                {% endfor %}
+            </select>
+            <select name= health_effects method="GET" action="/sunburst">
+                {% for health_effect in health_effects %}
+                <option value= "{{health_effect}}" SELECTED>{{health_effect}}</option>"
+                {% endfor %}
+            </select>
+        </form>
+    </center>
     <script src="https://d3js.org/d3.v3.min.js"></script>
         <div id="sunburst">
             <div id="vis"></div>
