@@ -41,13 +41,16 @@ function myFunction() {
             </select>
         </form>
     </center>
+    <button onclick="test()">Click me</button>
     <script src="https://d3js.org/d3.v3.min.js"></script>
         <div id="sunburst">
             <div id="vis"></div>
             <script src="{{ url_for('static', filename='js/burst.js') }}"></script>
         </div>
+    <!--
     <button onClick="update();">Click to update rect elements using function(d, i)</button>
     <button onClick="update2();">Cli212121s using function(d, i)</button>
+    -->
     <script>
         function update() {
             d3.selectAll('#path-12')
@@ -83,5 +86,5 @@ function myFunction() {
 
     }
 </script>
-    <button onclick="test()">Click me</button>
+
 {% endblock %}
