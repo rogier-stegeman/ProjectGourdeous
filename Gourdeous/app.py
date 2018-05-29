@@ -14,6 +14,9 @@ def index():
 def home():
     return render_template('home.html')
 
+@app.route('/textmine')
+def textmine():
+    return render_template('textmine.html')
 
 @app.route('/sunburst')
 def sunburst():

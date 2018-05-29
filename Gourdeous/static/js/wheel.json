@@ -42,7 +42,7 @@
                     "name": "Lemon", "colour": "#efd580"
                   },
                   {
-                    "name": "Apple", "colour": "#f1cb82"
+                    "name": "Lemon", "colour": "#f1cb82"
                   }
                 ]
               },
@@ -50,7 +50,7 @@
                 "name": "Berry-like",
                 "children": [
                   {
-                    "name": "Apricot", "colour": "#f1c298"
+                    "name": "Lemon", "colour": "#f1c298"
                   },
                   {
                     "name": "Blackberry", "colour": "#e8b598"
@@ -69,7 +69,7 @@
                     "name": "Onion", "colour": "#d5dda1"
                   },
                   {
-                    "name": "Garlic", "colour": "#c9d2b5"
+                    "name": "Onion", "colour": "#c9d2b5"
                   }
                 ]
               },
@@ -77,10 +77,10 @@
                 "name": "Leguminous",
                 "children": [
                   {
-                    "name": "Cucumber", "colour": "#aec1ad"
+                    "name": "Onion", "colour": "#aec1ad"
                   },
                   {
-                    "name": "Garden Peas", "colour": "#a7b8a8"
+                    "name": "Onion", "colour": "#a7b8a8"
                   }
                 ]
               }

@@ -57,6 +57,7 @@
         }).outerRadius(function(t) {
             return Math.max(0, u(t.y + t.dy))
         });
+
     d3.json("static/js/wheel.json", function(r, i) {
         function l(n) {
             h.transition().duration(s).attrTween("d", e(n)), m.style("visibility", function(e) {
@@ -82,9 +83,16 @@
                 children: i
             }),
             h = f.selectAll("path").data(o);
+
+        // Called for each node when initializing sunburst
+        // Gives nodes an id "path-nr"
         h.enter().append("path").attr("id", function(t, n) {
             return "path-" + n
-        }).attr("d", x).attr("fill-rule", "evenodd").style("fill", n).on("click", l);
+        }).attr("d", x).attr("fill-rule", "evenodd").style("fill", n).on("click", l,function () {
+                console.log("ow")
+            });
+
+        // Called once when initializing sunburst
         var m = f.selectAll("text").data(o),
             y = m.enter().append("text").style("fill-opacity", 1).style("fill", function(t) {
                 return a(d3.rgb(n(t))) < 125 ? "#eee" : "#000"
@@ -94,8 +102,12 @@
                 var n = (t.name || "").split(" ").length > 1,
                     e = 180 * d(t.x + t.dx / 2) / Math.PI - 90,
                     r = e + (n ? -.5 : 0);
+
+                // Places text in the nodes
                 return "rotate(" + r + ")translate(" + (u(t.y) + c) + ")rotate(" + (e > 90 ? -180 : 0) + ")"
             }).on("click", l);
+
+        //Called for each node when page is refreshed
         y.append("tspan").attr("x", 0).text(function(t) {
             return t.depth ? t.name.split(" ")[0] : ""
         }), y.append("tspan").attr("x", 0).attr("dy", "1em").text(function(t) {
