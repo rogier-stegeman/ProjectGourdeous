@@ -8,6 +8,7 @@
   <meta name="keywords" content="website keywords, website keywords" />
   <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+      {% block scripts %} {% endblock %}
   {% endblock %}
 </head>
 
@@ -41,6 +42,5 @@
         {% endblock %}
     </div>
   </div>
-  {% block scripts %} {% endblock %}
 </body>
 </html>
