@@ -56,7 +56,6 @@ for start in range(0,count,batch_size):
     attempt = 1
     # while attempt <= 3:
     try:
-        print("hoi")
         fetch_handle = Entrez.efetch(db="pubmed",#term ="keyword",
                                  retmode="text",retstart=start,
                                  retmax=batch_size,rettype= "medline",
