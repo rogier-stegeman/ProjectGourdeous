@@ -325,18 +325,6 @@ table tr td
 /* Sunburst css */
 
 path {
-  stroke: #000;
-  stroke-width: 1.5;
-  cursor: pointer;
-}
-
-.breadcrumbs {
-  font-size: small;
-  font-family: sans-serif;
-  width: 100%;
-  margin: 0;
-  padding-top: 3px;
-  font-style: italic;
-  border-bottom: solid #eee 1px;
-  color: #999;
+    stroke: #000;
+    cursor: pointer;
 }

@@ -1,120 +1,91 @@
-! function() {
-    function t(n, e) {
-        return n === e ? !0 : n.children ? n.children.some(function(n) {
-            return t(n, e)
-        }) : !1
-    }
+! function () {
+var width = 960,
+    height = 700,
+    radius = (Math.min(width, height) / 2) - 10;
 
-    function n(t) {
-        if (t.children) {
-            var e = t.children.map(n),
-                r = d3.hsl(e[0]),
-                a = d3.hsl(e[1]);
-            return d3.hsl((r.h + a.h) / 2, 1.2 * r.s, r.l / 1.2)
-        }
-        return t.colour || "#fff"
-    }
+var formatNumber = d3.format(",d");
 
-    function e(t) {
-        var n = r(t),
-            e = d3.interpolate(d.domain(), [t.x, t.x + t.dx]),
-            a = d3.interpolate(u.domain(), [t.y, n]),
-            i = d3.interpolate(u.range(), [t.y ? 20 : 0, o]);
-        return function(t) {
-            return function(n) {
-                return d.domain(e(n)), u.domain(a(n)).range(i(n)), x(t)
+var x = d3.scaleLinear()
+    .range([0, 2 * Math.PI]);
+
+var y = d3.scaleSqrt()
+    .range([0, radius]);
+
+var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+var partition = d3.partition();
+
+var arc = d3.arc()
+    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x0))); })
+    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x1))); })
+    .innerRadius(function(d) { return Math.max(0, y(d.y0)); })
+    .outerRadius(function(d) { return Math.max(0, y(d.y1)); });
+
+// Create the svg element
+var svg = d3.select("#vis").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
+
+// Load the json file
+d3.json("static/js/wheel.json", function(error, root) {
+    if (error) throw error;
+    root = d3.hierarchy(root);
+    root.sum(function(d) { return d.size; });
+    var path = svg.selectAll("path")
+        .data(partition(root).descendants())
+        .enter().append("g")
+        .attr("nameofg","gname")
+        path.append("path")
+        .attr("d", arc)
+            .attr("name","disname")
+        .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
+        .on("click", click)
+        .text(function(name) { alert("Q1"+ name+" "+name);return name.data.name + "\n" + formatNumber(name.value); });
+
+    path.append("text")
+        .text(function(name) { alert("Q"+ name+" "+name); return name})
+        .classed("label", true)
+        .attr("x", function(d) { return d.x; })
+        .attr("text-anchor", "middle")
+        .attr("transform", function(d) {
+            if (d.depth > 0) {
+                return "translate(" + arc.centroid(d) + ")" +
+                       "rotate(" + getAngle(d) + ")";
+            }  else {
+                return null;
             }
-        }
-    }
-
-    function r(t) {
-        return t.children ? Math.max.apply(Math, t.children.map(r)) : t.y + t.dy
-    }
-
-    function a(t) {
-        return .299 * t.r + .587 * t.g + .114 * t.b
-    }
-    var i = 840,
-        l = i,
-        o = i / 2,
-        d = d3.scale.linear().range([0, 2 * Math.PI]),
-        u = d3.scale.pow().exponent(1.3).domain([0, 1]).range([0, o]),
-        c = 5,
-        s = 1e3,
-        h = d3.select("#vis");
-    h.select("img").remove();
-    // New size definition:
-    var f = h.append("svg").attr("width", i + 2 * c).attr("height", l + 2 * c).append("g").attr("transform", "translate(" + [o + c, o + c] + ")");
-    // Old size:
-    //var f = h.append("svg").attr("width", 180).attr("height", 180).append("g").attr("transform", "translate(" + [o + c, o + c] + ")");
-    h.append("p").attr("id", "intro").text("Click to zoom!");
-    var p = d3.layout.partition().sort(null).value(function(t) {
-            return 5.8 - t.depth
-        }),
-        x = d3.svg.arc().startAngle(function(t) {
-            return Math.max(0, Math.min(2 * Math.PI, d(t.x)))
-        }).endAngle(function(t) {
-            return Math.max(0, Math.min(2 * Math.PI, d(t.x + t.dx)))
-        }).innerRadius(function(t) {
-            return Math.max(0, t.y ? u(t.y) : t.y)
-        }).outerRadius(function(t) {
-            return Math.max(0, u(t.y + t.dy))
-        });
-
-    d3.json("static/js/wheel.json", function(r, i) {
-        function l(n) {
-            h.transition().duration(s).attrTween("d", e(n)), m.style("visibility", function(e) {
-                return t(n, e) ? null : d3.select(this).style("visibility")
-            }).transition().duration(s).attrTween("text-anchor", function(t) {
-                return function() {
-                    return d(t.x + t.dx / 2) > Math.PI ? "end" : "start"
-                }
-            }).attrTween("transform", function(t) {
-                var n = (t.name || "").split(" ").length > 1;
-                return function() {
-                    var e = 180 * d(t.x + t.dx / 2) / Math.PI - 90,
-                        r = e + (n ? -.5 : 0);
-                    return "rotate(" + r + ")translate(" + (u(t.y) + c) + ")rotate(" + (e > 90 ? -180 : 0) + ")"
-                }
-            }).style("fill-opacity", function(e) {
-                return t(n, e) ? 1 : 1e-6
-            }).each("end", function(e) {
-                d3.select(this).style("visibility", t(n, e) ? null : "hidden")
-            })
-        }
-        var o = p.nodes({
-                children: i
-            }),
-            h = f.selectAll("path").data(o);
-
-        // Called for each node when initializing sunburst
-        // Gives nodes an id "path-nr"
-        h.enter().append("path").attr("id", function(t, n) {
-            return "path-" + n
-        }).attr("d", x).attr("fill-rule", "evenodd").style("fill", n).on("click", l,function () {
-                console.log("ow")
-            });
-
-        // Called once when initializing sunburst
-        var m = f.selectAll("text").data(o),
-            y = m.enter().append("text").style("fill-opacity", 1).style("fill", function(t) {
-                return a(d3.rgb(n(t))) < 125 ? "#eee" : "#000"
-            }).attr("text-anchor", function(t) {
-                return d(t.x + t.dx / 2) > Math.PI ? "end" : "start"
-            }).attr("dy", ".2em").attr("transform", function(t) {
-                var n = (t.name || "").split(" ").length > 1,
-                    e = 180 * d(t.x + t.dx / 2) / Math.PI - 90,
-                    r = e + (n ? -.5 : 0);
-
-                // Places text in the nodes
-                return "rotate(" + r + ")translate(" + (u(t.y) + c) + ")rotate(" + (e > 90 ? -180 : 0) + ")"
-            }).on("click", l);
-
-        //Called for each node when page is refreshed
-        y.append("tspan").attr("x", 0).text(function(t) {
-            return t.depth ? t.name.split(" ")[0] : ""
-        }), y.append("tspan").attr("x", 0).attr("dy", "1em").text(function(t) {
-            return t.depth ? t.name.split(" ")[1] || "" : ""
         })
-    })
+        .attr("dx", "6") // margin
+        .attr("dy", ".35em") // vertical-align
+        .attr("pointer-events", "none");
+});
+
+// Handles the click
+function click(d) {
+  svg.transition()
+      .duration(750)
+      .tween("scale", function() {
+        var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
+            yd = d3.interpolate(y.domain(), [d.y0, 1]),
+            yr = d3.interpolate(y.range(), [d.y0 ? 20 : 0, radius]);
+        return function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); };
+      })
+      .selectAll("path")
+      .attrTween("d", function(d) { return function() { return arc(d); }; });
+}
+
+d3.select(self.frameElement).style("height", height + "px");
 }();
+
+function getAngle(d) {
+    alert("angle")
+    // Offset the angle by 90 deg since the '0' degree axis for arc is Y axis, while
+    // for text it is the X axis.
+    var thetaDeg = (180 / Math.PI * (arc.startAngle()(d) + arc.endAngle()(d)) / 2 - 90);
+    // If we are rotating the text by more than 90 deg, then "flip" it.
+    // This is why "text-anchor", "middle" is important, otherwise, this "flip" would
+    // a little harder.
+    return (thetaDeg > 90) ? thetaDeg - 180 : thetaDeg;
+}

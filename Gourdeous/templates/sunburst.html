@@ -20,43 +20,11 @@ function myFunction() {
     <input type="text" value="Highlight">
     </form>
 
-    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
         <div id="sunburst">
             <div id="vis"></div>
             <script src="{{ url_for('static', filename='js/burst.js') }}"></script>
         </div>
-    <!--
-    <button onClick="update();">Click to update rect elements using function(d, i)</button>
-    <button onClick="update2();">Cli212121s using function(d, i)</button>
-    -->
-    <!-- old script
-    <script>
-        function update() {
-            d3.selectAll('#path-12')
-                .style("fill", "red");
-            }
-	</script>
-	-->
-    <!-- old script
-    <script>
-    function update2() {
-        alert("wowowow");
-        d3.selectAll("path").style("fill", "red")
-            .on("mouseover", function () {
-                d3.select(this)
-                    .style("background-color", "orange");
-
-                // Get current event info
-                console.log(d3.event);
-            })
-            .on("mouseout", function () {
-                d3.select(this)
-                    .style("background-color", "steelblue")
-            });
-            }
-        </script>
-        -->
-    </div>
     <script>
 
     function test(){
