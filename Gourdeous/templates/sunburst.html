@@ -15,35 +15,10 @@ function myFunction() {
 {% endblock %}
 {% block content %}
 
-
-    <center>
-        <p>Please insert searchterms.</p>
-        <form >
-            <input type="text" name="search1" value="searchterm1">
-            <input type="text" name="search2" value="searchterm2">
-            <input type="text" name="search3" value="searchterm3">
-            <input type="submit" name="submitter" value="sendOff"> <!-- functie onclick="runBurst(this)"toevoegen dat de sunburst word gestart-->
-        </form>
-        <form>
-            <select name= organisms method="GET" action="/sunburst">
-                {% for organism in organisms %}
-                <option value= "{{organism}}" SELECTED>{{organism}}</option>"
-                {% endfor %}
-            </select>
-            <select name= compounds method="GET" action="/sunburst">
-                {% for compound in compounds %}
-                <option value= "{{compound}}" SELECTED>{{compound}}</option>"
-                {% endfor %}
-            </select>
-            <select name= health_effects method="GET" action="/sunburst">
-                {% for health_effect in health_effects %}
-                <option value= "{{health_effect}}" SELECTED>{{health_effect}}</option>"
-                {% endfor %}
-            </select>
-        </form>
-    </center>
     <button onclick="test()">Click me</button>
-
+    <form>
+    <input type="text" value="Highlight">
+    </form>
 
     <script src="https://d3js.org/d3.v3.min.js"></script>
         <div id="sunburst">
@@ -54,12 +29,15 @@ function myFunction() {
     <button onClick="update();">Click to update rect elements using function(d, i)</button>
     <button onClick="update2();">Cli212121s using function(d, i)</button>
     -->
+    <!-- old script
     <script>
         function update() {
             d3.selectAll('#path-12')
                 .style("fill", "red");
             }
 	</script>
+	-->
+    <!-- old script
     <script>
     function update2() {
         alert("wowowow");
@@ -75,13 +53,13 @@ function myFunction() {
                 d3.select(this)
                     .style("background-color", "steelblue")
             });
-    }
-</script>
+            }
+        </script>
+        -->
     </div>
     <script>
 
     function test(){
-        alert("now");
     d3.selectAll("path")
         .on("mouseover", function(){
             d3.select(this).style("fill","blue");

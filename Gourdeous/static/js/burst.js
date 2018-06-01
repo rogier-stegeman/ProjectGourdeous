@@ -43,7 +43,10 @@
         s = 1e3,
         h = d3.select("#vis");
     h.select("img").remove();
+    // New size definition:
     var f = h.append("svg").attr("width", i + 2 * c).attr("height", l + 2 * c).append("g").attr("transform", "translate(" + [o + c, o + c] + ")");
+    // Old size:
+    //var f = h.append("svg").attr("width", 180).attr("height", 180).append("g").attr("transform", "translate(" + [o + c, o + c] + ")");
     h.append("p").attr("id", "intro").text("Click to zoom!");
     var p = d3.layout.partition().sort(null).value(function(t) {
             return 5.8 - t.depth

@@ -14,7 +14,7 @@
             <input type="text" name="search3" value="e-mail">
             <input type="submit" name="submitter" value="sendOff"> <!-- functie onclick="runBurst(this)"toevoegen dat de sunburst word gestart-->
         </form>
-        <form>
+        <form style="padding-right: 272px; padding-top: 10px">
             <select name= organisms method="GET" action="/textmine">
                 {% for organism in organisms %}
                 <option value= "{{organism}}" SELECTED>{{organism}}</option>"
