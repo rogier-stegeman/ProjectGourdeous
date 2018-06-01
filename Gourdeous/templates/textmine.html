@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}Textminer{% endblock %}
+
+{% block content %}
+    <h1>
+        Input page
+    </h1>
+    <center>
+        <p>Please insert searchterms and your email.</p>
+        <form >
+            <input type="text" name="search1" value="plant">
+            <input type="text" name="search2" value="health_effect">
+            <input type="text" name="search3" value="e-mail">
+            <input type="submit" name="submitter" value="GoMine"> <!-- functie onclick="runBurst(this)"toevoegen dat de sunburst word gestart-->
+        </form>
+        <form>
+            <select name= organisms method="GET" action="/textmine">
+                {% for organism in organisms %}
+                <option value= "{{organism}}" SELECTED>{{organism}}</option>"
+                {% endfor %}
+            </select>
+            <!--<select name= compounds method="GET" action="/textmine">-->
+                <!--{% for compound in compounds %}-->
+                <!--<option value= "{{compound}}" SELECTED>{{compound}}</option>"-->
+                <!--{% endfor %}-->
+            <!--</select>-->
+            <select name= health_effects method="GET" action="/textmine">
+                {% for health_effect in health_effects %}
+                <option value= "{{health_effect}}" SELECTED>{{health_effect}}</option>"
+                {% endfor %}
+            </select>
+        </form>
+    </center>
+
+{% endblock %}

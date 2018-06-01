@@ -1,0 +1,47 @@
+[
+  {
+    "name": "bitter gourd",
+    "children": [
+      {
+        "name": "glucose",
+        "children": [
+          {
+            "name": "weigth loss", "colour": "#ede487"
+          },
+          {
+            "name": "diabetes", "colour": "#ede487"
+          }
+        ]
+      },
+      {
+        "name": "fatty acid",
+        "children": [
+          {
+            "name": "laxative", "colour": "#ede487"
+          },
+          {
+            "name": "fever", "colour": "#ede487"
+          },
+          {
+            "name": "cough", "colour": "#ede487"
+          }
+        ]
+      },
+      {
+        "name": "cholesterol",
+        "children": [
+          {
+            "name": "diabetes", "colour": "#ede487"
+          },
+          {
+            "name": "laxative", "colour": "#ede487"
+          },
+          {
+            "name": "fever",
+            "colour": "#ede487"
+          }
+        ]
+      }
+    ]
+  }
+]
