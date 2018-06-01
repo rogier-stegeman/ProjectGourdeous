@@ -28,7 +28,7 @@ def submitter():
     plant = request.form['search1']
     health = request.form['search2']
     email = request.form['search3']
-    
+
     return render_template('textmine.html', plant=plant, health=health, email=email )
 
 @app.route('/sunburst')
