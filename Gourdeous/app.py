@@ -23,6 +23,14 @@ def textmine():
                       'abdominal pain', 'fever', 'hypoglycemia', 'urinary incontinence', 'chest pain', 'miscarriage']
     return render_template('textmine.html', organisms=organisms, compounds=compounds, health_effects=health_effects)
 
+@app.route('/textmine', methods=['POST'])
+def submitter():
+    plant = request.form['search1']
+    health = request.form['search2']
+    email = request.form['search3']
+    
+    return render_template('textmine.html', plant=plant, health=health, email=email )
+
 @app.route('/sunburst')
 def sunburst():
     return render_template("sunburst.html")
