@@ -15,7 +15,6 @@ function myFunction() {
 {% endblock %}
 {% block content %}
 
-    <button onclick="test()">Click me</button>
     <form>
     <input type="text" value="Highlight">
     </form>
@@ -27,13 +26,6 @@ function myFunction() {
         </div>
     <script>
 
-    function test(){
-    d3.selectAll("path")
-        .on("mouseover", function(){
-            d3.select(this).style("fill","blue");
-        });
-
-    }
 </script>
 
 {% endblock %}

@@ -33,17 +33,40 @@ d3.json("static/js/wheel.json", function(error, root) {
     if (error) throw error;
     root = d3.hierarchy(root);
     root.sum(function(d) { return d.size; });
+
     var path = svg.selectAll("path")
         .data(partition(root).descendants())
         .enter().append("g")
-        .attr("nameofg","gname")
         path.append("path")
         .attr("d", arc)
-            .attr("name","disname")
+            .attr("name",function (name) {return name.data.name})
+
         .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
         .on("click", click)
-        .text(function(name) { alert("Q1"+ name+" "+name);return name.data.name + "\n" + formatNumber(name.value); });
+            .on("mouseover",function () {
+                var name = d3.select(this).attr("name");
+                var col = d3.select(this).style("fill");
+                d3.selectAll("path")
+                    .filter(function (d) {
+                    return d3.select(this).attr("name") === name;
+                    })
+                    .style('fill', 'orange')
+                    .style('stroke','#ff0d3c')
+                    .style("stroke-width","3");
+            })
+            .on("mouseout",function () {
+                d3.selectAll("path").style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
+                    .style("stroke", "#000")
+                    .style("stroke-width","1")
+            })
+        .append("title",function(name) {return name.data.name + "\n" + formatNumber(name.value)})
+        .text(function(name) { /*alert("Q1"+ name+" "+name)*/;return name.data.name + "\n" + formatNumber(name.value)
+            //.append("name",function (name) {return name.data.name})
+            //.text(function (name) {return name.data.name})
+        ;})
 
+
+    /*object object
     path.append("text")
         .text(function(name) { alert("Q"+ name+" "+name); return name})
         .classed("label", true)
@@ -60,6 +83,7 @@ d3.json("static/js/wheel.json", function(error, root) {
         .attr("dx", "6") // margin
         .attr("dy", ".35em") // vertical-align
         .attr("pointer-events", "none");
+    */
 });
 
 // Handles the click
