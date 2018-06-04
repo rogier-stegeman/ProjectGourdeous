@@ -1,46 +1,56 @@
 ! function () {
+
 var width = 700,
     height = 700,
     radius = (Math.min(width, height) / 2) - 10;
 
-var formatNumber = d3.format(",d");
 
-var x = d3.scaleLinear()
-    .range([0, 2 * Math.PI]);
+    var formatNumber = d3.format(",d");
 
-var y = d3.scaleSqrt()
-    .range([0, radius]);
+    var x = d3.scaleLinear()
+        .range([0, 2 * Math.PI]);
 
-var color = d3.scaleOrdinal(d3.schemeCategory20);
+    var y = d3.scaleLinear()
+        .range([0, radius]);
 
-var partition = d3.partition();
+    var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-var arc = d3.arc()
-    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x0))); })
-    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x1))); })
-    .innerRadius(function(d) { return Math.max(0, y(d.y0)); })
-    .outerRadius(function(d) { return Math.max(0, y(d.y1)); });
+    var partition = d3.partition();
+
+    var arc = d3.arc()
+        .startAngle(function (d) {
+            return Math.max(0, Math.min(2 * Math.PI, x(d.x0)));
+        })
+        .endAngle(function (d) {
+            return Math.max(0, Math.min(2 * Math.PI, x(d.x1)));
+        })
+        .innerRadius(function (d) {
+            return Math.max(0, y(d.y0));
+        })
+        .outerRadius(function (d) {
+            return Math.max(0, y(d.y1));
+        });
 
 // Create the svg element
-var svg = d3.select("#vis").append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
+    var svg = d3.select("#vis").append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
 
 // Load the json file
 d3.json("static/js/example.json", function(error, root) {
     if (error) throw error;
     root = d3.hierarchy(root);
     root.sum(function(d) { return d.size; });
-
-    var path = svg.selectAll("path")
+    var g = svg.selectAll("path")
         .data(partition(root).descendants())
         .enter().append("g");
-        path.append("path")
-        .attr("d", arc)
-            .attr("name",function (name) {return name.data.name})
 
+    var path = g.append("path")
+        .attr("d", arc)
+        .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
+        .on("click", click);
         .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
             .on("click", showArticles)
         .on("dblclick", zoom)
@@ -55,26 +65,19 @@ d3.json("static/js/example.json", function(error, root) {
             //.append("name",function (name) {return name.data.name})
             //.text(function (name) {return name.data.name})
         ;})
-
-
-    /*object object
-    path.append("text")
-        .text(function(name) { alert("Q"+ name+" "+name); return name})
-        .classed("label", true)
-        .attr("x", function(d) { return d.x; })
-        .attr("text-anchor", "middle")
+    var text = g.append("text")
         .attr("transform", function(d) {
-            if (d.depth > 0) {
-                return "translate(" + arc.centroid(d) + ")" +
-                       "rotate(" + getAngle(d) + ")";
-            }  else {
+            if(d.depth > 0){
+                return "translate(" + arc.centroid(d) + ")rotate(" + getAngle(d) + ")";
+            }else {
                 return null;
-            }
-        })
+            }})
+        .attr("text-anchor", "middle")
         .attr("dx", "6") // margin
         .attr("dy", ".35em") // vertical-align
+        .style("font-size", "9px")
+        .text(function(d) {return d.data.name})
         .attr("pointer-events", "none");
-    */
 });
 
 function showArticles() {
@@ -121,16 +124,32 @@ function showArticles() {
 // This function is called when a user double clicks on a node. It will make this node the new center of the sunburst
 // by zooming in on it and adjusting the other nodes.
 function zoom(d) {
-  svg.transition()
-      .duration(1500)
-      .tween("scale", function() {
-        var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
-            yd = d3.interpolate(y.domain(), [d.y0, 1]),
-            yr = d3.interpolate(y.range(), [d.y0 ? 20 : 0, radius]);
-        return function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); };
-      })
-      .selectAll("path")
-      .attrTween("d", function(d) { return function() { return arc(d); }; });
+    text.transition().attr("opacity", 0);
+    //transition.selectAll("text")
+    path.transition()
+        .duration(750)
+        .tween("scale", function () {
+            var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
+                yd = d3.interpolate(y.domain(), [d.y0, 1]),
+                yr = d3.interpolate(y.range(), [d.y0 ? 20 : 0, radius]);
+            return function (t) {
+                x.domain(xd(t));
+                y.domain(yd(t)).range(yr(t));};})
+
+
+
+        .attrTween("d", function (d) {
+            return function () {return arc(d);};})
+        .on("end", function (e, i) {
+            if(e.x0 >= d.x0 && e.x0 < (d.x1)){
+                var arcText = d3.select(this.parentNode).select("text");
+                arcText.transition().duration(750)
+                    .attr("opacity", 1)
+                    .attr("transform", function(d){return "translate(" + arc.centroid(d) + ")rotate(" + getAngle(d) + ")";})
+                    .attr("text-anchor", "middle")
+                    .text(function(d){
+                        return d.data.name == "root" ? "" : d.data.name});
+        }})
 }
 
 // This function is called when the user hovers the mouse over a node.
@@ -148,20 +167,20 @@ function highlight() {
 }
 
 d3.select(self.frameElement).style("height", height + "px");
-}();
+
 
 // [From template]
 // Used to rotate the sunburst text.
 function getAngle(d) {
-    alert("angle");
     // Offset the angle by 90 deg since the '0' degree axis for arc is Y axis, while
     // for text it is the X axis.
     var thetaDeg = (180 / Math.PI * (arc.startAngle()(d) + arc.endAngle()(d)) / 2 - 90);
     // If we are rotating the text by more than 90 deg, then "flip" it.
     // This is why "text-anchor", "middle" is important, otherwise, this "flip" would
     // a little harder.
-    return (thetaDeg > 90) ? thetaDeg - 180 : thetaDeg;
+    return (thetaDeg > 90) ? thetaDeg + 180 : thetaDeg;
 }
+}();
 /*
 d3.select("#highlightClear").on("click",function () {
     var color = d3.scaleOrdinal(d3.schemeCategory20);
