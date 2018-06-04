@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, flash
 from Bio import Entrez
 import mysql.connector
 from Bio import Medline
@@ -26,14 +26,20 @@ def textmine():
                       'abdominal pain', 'fever', 'hypoglycemia', 'urinary incontinence', 'chest pain', 'miscarriage']
     return render_template('textmine.html', organisms=organisms, compounds=compounds, health_effects=health_effects)
 
-@app.route('/Busy', methods=['POST'])
+@app.route('/busy', methods=['GET','POST'])
 def submitter():
+    #return render_template("sorry.html")
+    #return render_template("Busy.html")
+    #This function was meant to allow the user to add data in the form of search requests to the database
+    # in order to expand the database. Unfortunatly is has an URL error we weren't able to solve.
+    # that's why this function isn't used for the web application.
     if request.method == 'POST':
         if request.form['submit'] == 'submitter':
             plant = request.form['search1']
             health = request.form['search2']
             email = request.form['search3']
-            zoekwoorden = plant + " AND " + health
+            #zoekwoorden = plant + " AND " + health
+            zoekwoorden = "bitter gourd" + " AND " + "diabetic"
             conn = mysql.connector.connect(user='owe8_pg9', password='blaat1234',
                                            host="localhost",
                                            database='owe8_pg9')
@@ -135,7 +141,8 @@ def submitter():
             conn.commit()
             cur.close()
             conn.close()
-            return render_template("Busy.html")
+            #flash("hello world!")
+    return render_template("Busy.html")
     # elif request.method == ['GET']:
     #     return render_template("textmine.html")
     # else:

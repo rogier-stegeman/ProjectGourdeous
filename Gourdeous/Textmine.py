@@ -10,10 +10,8 @@ import mysql.connector
 #import uuid
 
 #app = Flask(__name__)
-health_effect =
-plant = ..
-mail =.
-zoekwoorden = plant + " AND " + health_effect
+
+zoekwoorden = "bitter gourd" + " AND " + "diabetic"
 conn = mysql.connector.connect(user='owe8_pg9', password='blaat1234',
                                     host="localhost",
                                     database='owe8_pg9')
