@@ -5,10 +5,6 @@ from Bio import Medline
 import Gourdeous_textminer
 
 app = Flask(__name__)
-#app = Flask(__name__)
-#wsgi_app = app.wsgi_app
-#print(open("templates/home.html","r").read())
-
 
 @app.route('/')
 def index():
