@@ -10,9 +10,11 @@ wsgi_app = app.wsgi_app
 def index():
     return redirect(url_for('home'))
 
+
 @app.route('/home')
 def home():
     return render_template('home.html')
+
 
 @app.route('/textmine')
 def textmine():
@@ -22,6 +24,7 @@ def textmine():
     health_effects = ['diabetes', 'cancer', 'weigth loss', 'cough', 'wounds', 'rheumatism', 'laxative', 'diarrhea',
                       'abdominal pain', 'fever', 'hypoglycemia', 'urinary incontinence', 'chest pain', 'miscarriage']
     return render_template('textmine.html', organisms=organisms, compounds=compounds, health_effects=health_effects)
+
 
 @app.route('/sunburst')
 def sunburst():

@@ -1,7 +1,16 @@
+<!--
+    Description:
+        Html for the textmine page of the website. Takes user input and passes it on the the textmining script.
+
+    Known bugs:
+
+    Author: Bram
+
+    Last update: 02/06/2018
+-->
+<!-- Flask/Jinja template code-->
 {% extends "layout.html" %}
-
 {% block title %}Textminer{% endblock %}
-
 {% block content %}
     <h1>
         Input page
@@ -14,7 +23,7 @@
             <input type="text" name="search3" value="e-mail">
             <input type="submit" name="submitter" value="sendOff"> <!-- functie onclick="runBurst(this)"toevoegen dat de sunburst word gestart-->
         </form>
-        <form>
+        <form style="padding-right: 272px; padding-top: 10px">
             <select name= organisms method="GET" action="/textmine">
                 {% for organism in organisms %}
                 <option value= "{{organism}}" SELECTED>{{organism}}</option>"

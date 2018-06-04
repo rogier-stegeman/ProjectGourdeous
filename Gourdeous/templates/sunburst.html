@@ -1,9 +1,21 @@
+<!--
+    Description:
+        Html for the sunburst page of the website. This page is responsible for the visualisation of the gathered data.
+        This is done via a sunburst diagram using the d3 library. The sunburst is made in a JavaScript file.
+        Sunburst template acquired from: https://bl.ocks.org/kerryrodden/477c1bfb081b783f80ad
+
+    Known bugs:
+
+    Author: Rogier
+
+    Last update: 02/06/2018
+-->
+<!-- Flask/Jinja template code-->
 {% extends 'layout.html' %}
 {% block title %}Sunburst graph{% endblock %}
 {% block scripts %}
     <script>
 function myFunction() {
-    alert("dis1");
     svg.selectAll('path-12').style('fill', 'red');
     document.getElementById("path-11").style("fill", "blue");
     svg.selectAll('path-12').remove();
@@ -14,74 +26,33 @@ function myFunction() {
 </script>
 {% endblock %}
 {% block content %}
-    Sunburst here
-    <!--<center>-->
-        <!--<p>Please insert searchterms.</p>-->
-        <!--<form >-->
-            <!--<input type="text" name="search1" value="searchterm1">-->
-            <!--<input type="text" name="search2" value="searchterm2">-->
-            <!--<input type="text" name="search3" value="searchterm3">-->
-            <!--<input type="submit" name="submitter" value="sendOff"> &lt;!&ndash; functie onclick="runBurst(this)"toevoegen dat de sunburst word gestart&ndash;&gt;-->
-        <!--</form>-->
-        <!--<form>-->
-            <!--<select name= organisms method="GET" action="/sunburst">-->
-                <!--{% for organism in organisms %}-->
-                <!--<option value= "{{organism}}" SELECTED>{{organism}}</option>"-->
-                <!--{% endfor %}-->
-            <!--</select>-->
-            <!--<select name= compounds method="GET" action="/sunburst">-->
-                <!--{% for compound in compounds %}-->
-                <!--<option value= "{{compound}}" SELECTED>{{compound}}</option>"-->
-                <!--{% endfor %}-->
-            <!--</select>-->
-            <!--<select name= health_effects method="GET" action="/sunburst">-->
-                <!--{% for health_effect in health_effects %}-->
-                <!--<option value= "{{health_effect}}" SELECTED>{{health_effect}}</option>"-->
-                <!--{% endfor %}-->
-            <!--</select>-->
-        <!--</form>-->
-    <!--</center>-->
-    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <div style="width: 200px" class="outer">
+        <form>
+            <input type="text" value="Enter text" id="highlightWord" style="width: 200px">
+            <!-- Deprecated -->
+            <div style="display: flex; justify-content: space-between">
+                <!--<input class="inner" id="highlight-button" type="button" value="Highlight" onclick="highlighter()" style="margin-top: 5px"> -->
+                <input class="inner" id="highlightClear" type="button" value="Clear" onclick="highlighterClear()" style="margin: 5px 0px 0px 5px">
+            </div>
+            <!---->
+        </form>
+    </div>
+    <!-- Importing the d3 library from d3js.org and calling the JavaScript file to construct the sunburst -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
         <div id="sunburst">
+        <div id="article-field">
+                Articles go here<br>
+            Articles go here<br>
+            Articles go here<br>Articles go here<br>
+            Articles go here<br>Articles go here<br>
+
+            </div>
             <div id="vis"></div>
             <script src="{{ url_for('static', filename='js/burst.js') }}"></script>
+
         </div>
-    <button onClick="update();">Click to update rect elements using function(d, i)</button>
-    <button onClick="update2();">Cli212121s using function(d, i)</button>
     <script>
-        function update() {
-            d3.selectAll('#path-12')
-                .style("fill", "red");
-            }
-	</script>
-    <script>
-    function update2() {
-        alert("wowowow");
-        d3.selectAll("path").style("fill", "red")
-            .on("mouseover", function () {
-                d3.select(this)
-                    .style("background-color", "orange");
 
-                // Get current event info
-                console.log(d3.event);
-            })
-            .on("mouseout", function () {
-                d3.select(this)
-                    .style("background-color", "steelblue")
-            });
-    }
 </script>
-    </div>
-    <script>
 
-    function test(){
-        alert("now");
-    d3.selectAll("path")
-        .on("mouseover", function(){
-            d3.select(this).style("fill","blue");
-        });
-
-    }
-</script>
-    <button onclick="test()">Click me</button>
 {% endblock %}

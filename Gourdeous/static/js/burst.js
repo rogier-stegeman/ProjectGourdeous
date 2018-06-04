@@ -1,117 +1,255 @@
-! function() {
-    function t(n, e) {
-        return n === e ? !0 : n.children ? n.children.some(function(n) {
-            return t(n, e)
-        }) : !1
-    }
+/*
+    This javascript is responsible for creating the sunburst visualisation using the d3 library.
+    The sunburst is then placed in the html in the tag <svg> which this script also creates.
 
-    function n(t) {
-        if (t.children) {
-            var e = t.children.map(n),
-                r = d3.hsl(e[0]),
-                a = d3.hsl(e[1]);
-            return d3.hsl((r.h + a.h) / 2, 1.2 * r.s, r.l / 1.2)
-        }
-        return t.colour || "#fff"
-    }
+    Authors: Rogier and Awan
 
-    function e(t) {
-        var n = r(t),
-            e = d3.interpolate(d.domain(), [t.x, t.x + t.dx]),
-            a = d3.interpolate(u.domain(), [t.y, n]),
-            i = d3.interpolate(u.range(), [t.y ? 20 : 0, o]);
-        return function(t) {
-            return function(n) {
-                return d.domain(e(n)), u.domain(a(n)).range(i(n)), x(t)
+    Known bugs: Can't extract articles from the json file yet.
+ */
+
+//This function is called by the sunburst.html and contains all the code in this file since it has to run it all.
+! function () {
+var width = 700,
+    height = 700,
+    radius = (Math.min(width, height) / 2) - 10;
+
+var formatNumber = d3.format(",d");
+
+var x = d3.scaleLinear()
+    .range([0, 2 * Math.PI]);
+
+var y = d3.scaleSqrt()
+    .range([0, radius]);
+
+var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+var partition = d3.partition();
+
+var arc = d3.arc()
+    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x0))); })
+    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x1))); })
+    .innerRadius(function(d) { return Math.max(0, y(d.y0)); })
+    .outerRadius(function(d) { return Math.max(0, y(d.y1)); });
+
+// Create the svg element
+var svg = d3.select("#vis").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
+
+// Load the json file
+d3.json("static/js/example.json", function(error, root) {
+    if (error) throw error;
+    root = d3.hierarchy(root);
+    root.sum(function(d) { return d.size; });
+
+    var path = svg.selectAll("path")
+        .data(partition(root).descendants())
+        .enter().append("g");
+        path.append("path")
+        .attr("d", arc)
+            .attr("name",function (name) {return name.data.name})
+
+        .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
+            .on("click", showArticles)
+        .on("dblclick", zoom)
+            .on("mouseover", highlight)
+            .on("mouseout",function () {
+                d3.selectAll("path").style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
+                    .style("stroke", "#000")
+                    .style("stroke-width","1")
+            })
+        .append("title",function(name) {return name.data.name + "\n" + formatNumber(name.value)})
+        .text(function(name) { /*alert("Q1"+ name+" "+name)*/;return name.data.name + "\n" + formatNumber(name.value)
+            //.append("name",function (name) {return name.data.name})
+            //.text(function (name) {return name.data.name})
+        ;})
+
+
+    /*object object
+    path.append("text")
+        .text(function(name) { alert("Q"+ name+" "+name); return name})
+        .classed("label", true)
+        .attr("x", function(d) { return d.x; })
+        .attr("text-anchor", "middle")
+        .attr("transform", function(d) {
+            if (d.depth > 0) {
+                return "translate(" + arc.centroid(d) + ")" +
+                       "rotate(" + getAngle(d) + ")";
+            }  else {
+                return null;
+            }
+        })
+        .attr("dx", "6") // margin
+        .attr("dy", ".35em") // vertical-align
+        .attr("pointer-events", "none");
+    */
+});
+
+function showArticles() {
+    var searchName = d3.select(this).attr("name");
+    /*
+    d3.json("static/js/example2.json", function(error, data) {
+        if (error) throw error;
+        //alert(data[0].children[0].children[0].children[0].articles[0][0]);
+        alert(data.size());
+        for (var key in data){
+            for (var key2 in key){
+                alert(key2);
+                for (var compound in key2){
+                    alert(compound);
+                }
             }
         }
-    }
-
-    function r(t) {
-        return t.children ? Math.max.apply(Math, t.children.map(r)) : t.y + t.dy
-    }
-
-    function a(t) {
-        return .299 * t.r + .587 * t.g + .114 * t.b
-    }
-    var i = 840,
-        l = i,
-        o = i / 2,
-        d = d3.scale.linear().range([0, 2 * Math.PI]),
-        u = d3.scale.pow().exponent(1.3).domain([0, 1]).range([0, o]),
-        c = 5,
-        s = 1e3,
-        h = d3.select("#vis");
-    h.select("img").remove();
-    var f = h.append("svg").attr("width", i + 2 * c).attr("height", l + 2 * c).append("g").attr("transform", "translate(" + [o + c, o + c] + ")");
-    h.append("p").attr("id", "intro").text("Click to zoom!");
-    var p = d3.layout.partition().sort(null).value(function(t) {
-            return 5.8 - t.depth
-        }),
-        x = d3.svg.arc().startAngle(function(t) {
-            return Math.max(0, Math.min(2 * Math.PI, d(t.x)))
-        }).endAngle(function(t) {
-            return Math.max(0, Math.min(2 * Math.PI, d(t.x + t.dx)))
-        }).innerRadius(function(t) {
-            return Math.max(0, t.y ? u(t.y) : t.y)
-        }).outerRadius(function(t) {
-            return Math.max(0, u(t.y + t.dy))
-        });
-
-    d3.json("static/js/wheel.json", function(r, i) {
-        function l(n) {
-            h.transition().duration(s).attrTween("d", e(n)), m.style("visibility", function(e) {
-                return t(n, e) ? null : d3.select(this).style("visibility")
-            }).transition().duration(s).attrTween("text-anchor", function(t) {
-                return function() {
-                    return d(t.x + t.dx / 2) > Math.PI ? "end" : "start"
+        var m = d3.map(data);
+        //alert(m.values()[0]);
+        console.log(m.get("methanol"))
+    });
+    */
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", "static/js/example.json", false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                var allText = rawFile.responseText;
+                var x = JSON.parse(allText);
+                var nodesByPathMatchingName = {};
+                function matchesName(node, path) {
+                   if(node.name === searchName) {
+                      nodesByPathMatchingName[path.join(':')] = node;
+                   }
                 }
-            }).attrTween("transform", function(t) {
-                var n = (t.name || "").split(" ").length > 1;
-                return function() {
-                    var e = 180 * d(t.x + t.dx / 2) / Math.PI - 90,
-                        r = e + (n ? -.5 : 0);
-                    return "rotate(" + r + ")translate(" + (u(t.y) + c) + ")rotate(" + (e > 90 ? -180 : 0) + ")"
+                forEachNodeInJSONDoc(myJSON, matchesName);
+                // Nodes by path now contains a key for each path (eg "1:2:5") that had the name level3 with the actual node as the value
+
+                /*
+                var articles =  x.filter(function(art) {
+                    return art.name == searchName;
+                });
+                console.log(articles);
+                alert(articles);
+                */
+
+
+                /*
+                alert(x.Organism)
+                for (key in x) {
+                    if (x.hasOwnProperty(key)) {
+                        console.log("nr1: "+key + " = " + x[key]);
+                        //alert(key + " = " + x[key]);
+                        for (HB in x[key]) {
+                            if (key.hasOwnProperty(HB)) {
+                                console.log("nr2: "+HB + " = " + key[HB]);
+                                //alert(HB + " = " + key[HB]);
+                            }
+                        }
+                    }
                 }
-            }).style("fill-opacity", function(e) {
-                return t(n, e) ? 1 : 1e-6
-            }).each("end", function(e) {
-                d3.select(this).style("visibility", t(n, e) ? null : "hidden")
-            })
+                */
+                /*alert(x.children[0].children[0].children[0].name);
+                console.log(x);
+                for (var compound in x.children[0].children[0].children){
+                    alert(compound.name);
+                }*/
+            }
         }
-        var o = p.nodes({
-                children: i
-            }),
-            h = f.selectAll("path").data(o);
+    };
+    rawFile.send(null);
+}
 
-        // Called for each node when initializing sunburst
-        // Gives nodes an id "path-nr"
-        h.enter().append("path").attr("id", function(t, n) {
-            return "path-" + n
-        }).attr("d", x).attr("fill-rule", "evenodd").style("fill", n).on("click", l,function () {
-                console.log("ow")
-            });
+function forEachNodeInJSONDoc(jsonDoc, callbackFn, pathArray) {
+   const rootPathArray = pathArray ? pathArray.slice() : [];
+   Object.keys(jsonDoc).forEach(function(key) {
+       var childPath = rootPathArray.slice();
+       childPath.push(key);
+       callbackFn(jsonDoc[key], childPath);
+       forEachNodeInJSONDoc(jsonDoc[key], callbackFn, childPath);
+   });
+}
 
-        // Called once when initializing sunburst
-        var m = f.selectAll("text").data(o),
-            y = m.enter().append("text").style("fill-opacity", 1).style("fill", function(t) {
-                return a(d3.rgb(n(t))) < 125 ? "#eee" : "#000"
-            }).attr("text-anchor", function(t) {
-                return d(t.x + t.dx / 2) > Math.PI ? "end" : "start"
-            }).attr("dy", ".2em").attr("transform", function(t) {
-                var n = (t.name || "").split(" ").length > 1,
-                    e = 180 * d(t.x + t.dx / 2) / Math.PI - 90,
-                    r = e + (n ? -.5 : 0);
+// This function is called when a user double clicks on a node. It will make this node the new center of the sunburst
+// by zooming in on it and adjusting the other nodes.
+function zoom(d) {
+  svg.transition()
+      .duration(1500)
+      .tween("scale", function() {
+        var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
+            yd = d3.interpolate(y.domain(), [d.y0, 1]),
+            yr = d3.interpolate(y.range(), [d.y0 ? 20 : 0, radius]);
+        return function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); };
+      })
+      .selectAll("path")
+      .attrTween("d", function(d) { return function() { return arc(d); }; });
+}
 
-                // Places text in the nodes
-                return "rotate(" + r + ")translate(" + (u(t.y) + c) + ")rotate(" + (e > 90 ? -180 : 0) + ")"
-            }).on("click", l);
-
-        //Called for each node when page is refreshed
-        y.append("tspan").attr("x", 0).text(function(t) {
-            return t.depth ? t.name.split(" ")[0] : ""
-        }), y.append("tspan").attr("x", 0).attr("dy", "1em").text(function(t) {
-            return t.depth ? t.name.split(" ")[1] || "" : ""
+// This function is called when the user hovers the mouse over a node.
+// It will highlight this node and all other nodes with the same name.
+function highlight() {
+    var name = d3.select(this).attr("name");
+    var col = d3.select(this).style("fill");
+    d3.selectAll("path")
+        .filter(function (d) {
+        return d3.select(this).attr("name") === name;
         })
-    })
+        .style('fill', 'orange')
+        .style('stroke','#ff0d3c')
+        .style("stroke-width","3");
+}
+
+d3.select(self.frameElement).style("height", height + "px");
 }();
+
+// [From template]
+// Used to rotate the sunburst text.
+function getAngle(d) {
+    alert("angle");
+    // Offset the angle by 90 deg since the '0' degree axis for arc is Y axis, while
+    // for text it is the X axis.
+    var thetaDeg = (180 / Math.PI * (arc.startAngle()(d) + arc.endAngle()(d)) / 2 - 90);
+    // If we are rotating the text by more than 90 deg, then "flip" it.
+    // This is why "text-anchor", "middle" is important, otherwise, this "flip" would
+    // a little harder.
+    return (thetaDeg > 90) ? thetaDeg - 180 : thetaDeg;
+}
+/*
+d3.select("#highlightClear").on("click",function () {
+    var color = d3.scaleOrdinal(d3.schemeCategory20);
+    d3.selectAll("path")
+        .data(partition(root).descendants())
+        .enter()
+            .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
+              .style("stroke", "#000")
+              .style("stroke-width", "1");
+});
+*/
+
+d3.select("#highlightWord").on("input", function() {
+    var name = this.value;
+    d3.selectAll("path")
+        .filter(function (d) {
+        return d3.select(this).attr("name") === name;
+        })
+        .style('fill', 'orange')
+        .style('stroke','#ff0d3c')
+        .style("stroke-width","3");
+});
+
+
+/*
+function highlighter() {
+    var name = d3.select("#highlightWord").text();
+    alert(name);
+    var col = d3.select(this).style("fill");
+    d3.selectAll("path")
+        .filter(function (d) {
+        return d3.select(this).attr("name") === name;
+        })
+        .style('fill', 'orange')
+        .style('stroke','#ff0d3c')
+        .style("stroke-width","3");
+}
+*/
