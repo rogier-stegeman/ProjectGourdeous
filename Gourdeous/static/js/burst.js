@@ -39,7 +39,7 @@ var width = 700,
         .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
 
 // Load the json file
-d3.json("static/js/example.json", function(error, root) {
+d3.json("static/js/example2.json", function(error, root) {
     if (error) throw error;
     root = d3.hierarchy(root);
     root.sum(function(d) { return d.size; });
@@ -50,9 +50,7 @@ d3.json("static/js/example.json", function(error, root) {
     var path = g.append("path")
         .attr("d", arc)
         .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
-        .on("click", click);
-        .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
-            .on("click", showArticles)
+        .on("click", showArticles)
         .on("dblclick", zoom)
             .on("mouseover", highlight)
             .on("mouseout",function () {
@@ -78,7 +76,33 @@ d3.json("static/js/example.json", function(error, root) {
         .style("font-size", "9px")
         .text(function(d) {return d.data.name})
         .attr("pointer-events", "none");
-});
+    // This function is called when a user double clicks on a node. It will make this node the new center of the sunburst
+// by zooming in on it and adjusting the other nodes.
+function zoom(d) {
+    text.transition().attr("opacity", 0);
+    //transition.selectAll("text")
+    path.transition()
+        .duration(750)
+        .tween("scale", function () {
+            var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
+                yd = d3.interpolate(y.domain(), [d.y0, 1]),
+                yr = d3.interpolate(y.range(), [d.y0 ? 20 : 0, radius]);
+            return function (t) {
+                x.domain(xd(t));
+                y.domain(yd(t)).range(yr(t));};})
+        .attrTween("d", function (d) {
+            return function () {return arc(d);};})
+        .on("end", function (e, i) {
+            if(e.x0 >= d.x0 && e.x0 < (d.x1)){
+                var arcText = d3.select(this.parentNode).select("text");
+                arcText.transition().duration(750)
+                    .attr("opacity", 1)
+                    .attr("transform", function(d){return "translate(" + arc.centroid(d) + ")rotate(" + getAngle(d) + ")";})
+                    .attr("text-anchor", "middle")
+                    .text(function(d){
+                        return d.data.name == "root" ? "" : d.data.name});
+        }})
+}});
 
 function showArticles() {
     var name = d3.select(this).attr("name");
@@ -110,10 +134,10 @@ function showArticles() {
             {
                 var allText = rawFile.responseText;
                 var x = JSON.parse(allText);
-                alert(x.children[0].children[0].children[0].name);
+                //alert(x.children[0].children[0].children[0].name);
                 console.log(x);
                 for (var compound in x.children[0].children[0].children){
-                    alert(compound.name);
+                    //alert(compound.name);
                 }
             }
         }
@@ -121,36 +145,7 @@ function showArticles() {
     rawFile.send(null);
 }
 
-// This function is called when a user double clicks on a node. It will make this node the new center of the sunburst
-// by zooming in on it and adjusting the other nodes.
-function zoom(d) {
-    text.transition().attr("opacity", 0);
-    //transition.selectAll("text")
-    path.transition()
-        .duration(750)
-        .tween("scale", function () {
-            var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
-                yd = d3.interpolate(y.domain(), [d.y0, 1]),
-                yr = d3.interpolate(y.range(), [d.y0 ? 20 : 0, radius]);
-            return function (t) {
-                x.domain(xd(t));
-                y.domain(yd(t)).range(yr(t));};})
 
-
-
-        .attrTween("d", function (d) {
-            return function () {return arc(d);};})
-        .on("end", function (e, i) {
-            if(e.x0 >= d.x0 && e.x0 < (d.x1)){
-                var arcText = d3.select(this.parentNode).select("text");
-                arcText.transition().duration(750)
-                    .attr("opacity", 1)
-                    .attr("transform", function(d){return "translate(" + arc.centroid(d) + ")rotate(" + getAngle(d) + ")";})
-                    .attr("text-anchor", "middle")
-                    .text(function(d){
-                        return d.data.name == "root" ? "" : d.data.name});
-        }})
-}
 
 // This function is called when the user hovers the mouse over a node.
 // It will highlight this node and all other nodes with the same name.
