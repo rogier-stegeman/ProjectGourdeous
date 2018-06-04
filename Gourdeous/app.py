@@ -1,10 +1,10 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, flash
+from Bio import Entrez
+import mysql.connector
+from Bio import Medline
+import Gourdeous_textminer
 
 app = Flask(__name__)
-#app = Flask(__name__)
-wsgi_app = app.wsgi_app
-#print(open("templates/home.html","r").read())
-
 
 @app.route('/')
 def index():
@@ -18,12 +18,18 @@ def home():
 
 @app.route('/textmine')
 def textmine():
-    organisms = ['bitter gourd', 'yam', 'Momordica charantia', 'Dioscorea batatas']
-    compounds = ['fatty acid', 'insulin', 'cholesterol', 'sugar', 'glucose', 'vitamin A', 'vitamin B', 'vitamin C',
-                 'vitamin E', 'calcium', 'iron', 'potassium']
-    health_effects = ['diabetes', 'cancer', 'weigth loss', 'cough', 'wounds', 'rheumatism', 'laxative', 'diarrhea',
-                      'abdominal pain', 'fever', 'hypoglycemia', 'urinary incontinence', 'chest pain', 'miscarriage']
-    return render_template('textmine.html', organisms=organisms, compounds=compounds, health_effects=health_effects)
+    return render_template('textmine.html')
+
+@app.route('/Done', methods=['GET','POST'])
+def submitter():
+    #This function is meant to allow the user to add data in the form of search requests to the database
+    # in order to expand the database.
+    organisme = request.form['searchPlant']
+    zoekwoord = request.form['searchHealth']
+    email = request.form['searchMail']
+    Gourdeous_textminer.main(organisme,zoekwoord,email)
+    return render_template("Done.html")
+
 
 
 @app.route('/sunburst')

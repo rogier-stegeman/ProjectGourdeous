@@ -102,10 +102,6 @@ function showArticles() {
                 }
             }
         }
-        var m = d3.map(data);
-        //alert(m.values()[0]);
-        console.log(m.get("methanol"))
-    });
     */
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", "static/js/example.json", false);
