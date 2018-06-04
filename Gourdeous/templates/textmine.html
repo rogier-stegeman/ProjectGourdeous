@@ -6,12 +6,15 @@
     <h1>
         Input page
     </h1>
+<!-- In this page the form action allows the information put in by the user to be passed on
+    to the application. in the searchPlant, plant data will be transmitted. in the searchHealth health data will
+    be transmitted. in the SearchMail the users mail will be transmitted for the Pubmed search.-->
     <center>
         <p>Please insert searchterms and your email.</p>
         <form action="busy" method="POST",name="sequentie_text" id="form1">
-            <input type="text" name="search1" value="plant">
-            <input type="text" name="search2" value="health_effect">
-            <input type="text" name="search3" value="e-mail">
+            <input type="text" name="searchPlant" value="plant">
+            <input type="text" name="searchHealth" value="health_effect">
+            <input type="text" name="searchMail" value="e-mail">
             <input type="submit" name="submitter" value="GoMine">
         </form>
 {#        <form>#}
