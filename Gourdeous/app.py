@@ -30,9 +30,8 @@ def textmine():
 def submitter():
     #return render_template("sorry.html")
     #return render_template("Busy.html")
-    #This function was meant to allow the user to add data in the form of search requests to the database
-    # in order to expand the database. Unfortunatly is has an URL error we weren't able to solve.
-    # that's why this function isn't used for the web application.
+    #This function is meant to allow the user to add data in the form of search requests to the database
+    # in order to expand the database.
     organisme = request.form['search1']
     zoekwoord = request.form['search2']
     email = request.form['search3']
@@ -41,11 +40,7 @@ def submitter():
     conn = mysql.connector.connect(user='owe8_pg9', password='blaat1234',
                                     host="localhost",
                                     database='owe8_pg9')
-    conn.close() #weghalen als dit niet wekrt
-
-
-
-            #flash("hello world!")
+    conn.close() #code voor textmining invoegen of verander render template in sorry.html.
     return render_template("Busy.html")
 
 
