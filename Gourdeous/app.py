@@ -28,23 +28,24 @@ def textmine():
 
 @app.route('/busy', methods=['GET','POST'])
 def submitter():
-    #return render_template("sorry.html")
+    return render_template("sorry.html")
     #return render_template("Busy.html")
     #This function was meant to allow the user to add data in the form of search requests to the database
     # in order to expand the database. Unfortunatly is has an URL error we weren't able to solve.
     # that's why this function isn't used for the web application.
     if request.method == 'POST':
         if request.form['submit'] == 'submitter':
-            plant = request.form['search1']
-            health = request.form['search2']
+            organisme = request.form['search1']
+            zoekwoord = request.form['search2']
             email = request.form['search3']
-            #zoekwoorden = plant + " AND " + health
-            zoekwoorden = "bitter gourd" + " AND " + "diabetic"
+            zoekwoord = "diarrhea"
+            organisme = "dioscorea batatas"
             conn = mysql.connector.connect(user='owe8_pg9', password='blaat1234',
                                            host="localhost",
                                            database='owe8_pg9')
+            zoekwoorden = organisme + " AND " + zoekwoord
             Chemicals = []
-            cur = conn.cursor()
+            cur = conn.cursor(buffered=True)
             cur.execute('''
                         SELECT chemical_name FROM Chemicals  
                         ''')
@@ -55,12 +56,39 @@ def submitter():
                 chemical = cur.fetchone()
 
             print(len(Chemicals))
-            # id_search = uuid.uuid4()
             cur.execute('''
-                              INSERT INTO `Search`( `Keyword`)
-                             VALUES(%s );
-                             ''', (zoekwoorden,))
-            keyword = 'Toxine'
+                        SELECT OrganismID FROM Organism
+                        WHERE Organism=%s
+                        ''', (organisme,))
+            organismID = cur.fetchone()
+            if organismID == None:
+                cur.execute('''
+                            INSERT INTO `Organism`( `Organism`)
+                            VALUES(%s);
+                                 ''', (organisme,))
+                conn.commit()
+                cur.execute('''
+                            SELECT OrganismID FROM Organism
+                            WHERE Organism=%s
+                            ''', (organisme,))
+                organismID = cur.fetchone()
+
+            cur.execute('''
+                              INSERT INTO `Search`( `Keyword`,`OrganismID_ID`)
+                             VALUES(%s, %s);
+                             ''', (zoekwoord, organismID[0]))
+            conn.commit()
+            cur.execute('''
+                        SELECT SearchID FROM Search
+                        WHERE Keyword=%s AND OrganismID_ID=%s
+                        ''', (zoekwoord, organismID[0]))
+            c = cur.fetchone()
+            if c == None:
+                SearchID = 0
+            else:
+                SearchID = c[0]
+            # keyword = 'Toxine'
+            print("XDDDDDDD")
             # zoekt de synoniemen van de opgegeven keywords
             # synonyms =[]
             # for syn in wordnet.synsets(keyword):
@@ -82,6 +110,7 @@ def submitter():
                 attempt = 1
                 # while attempt <= 3:
                 try:
+                    print("hoi")
                     fetch_handle = Entrez.efetch(db="pubmed",  # term ="keyword",
                                                  retmode="text", retstart=start,
                                                  retmax=batch_size, rettype="medline",
@@ -98,49 +127,105 @@ def submitter():
                     raise
             data = Medline.parse(fetch_handle)
             data_list = list(data)
+            print(len(data_list))
+            cur.execute('''
+                        SELECT ArticleID
+                        FROM Articles
+                        WHERE ArticleID = (
+                        SELECT MAX( ArticleID )
+                        FROM Articles )
+                        ''')
+            c = cur.fetchone()
+            if c == None:
+                counter = 0
+            else:
+                counter = c[0]
+            cur.execute('''
+                        SELECT TermsID
+                        FROM Terms_found
+                        WHERE TermsID= (
+                        SELECT MAX( TermsID )
+                        FROM Terms_found )
+                        ''')
+            c = cur.fetchone()
+            if c == None:
+                idcounter = 0
+            else:
+                idcounter = c[0]
+
             for record in data_list:
-                opslag_record = []
+                added = False
                 opslag_compound = []
                 title = str(record.get("TI", "null"))
                 abstract = str(record.get("AB", "null"))
                 fuse = title + abstract
-                pubmedID = str(record.get("PMID", "null"))
-                taal = str(record.get("LA", "null"))
-                author = str(record.get("AU", "null"))
+                pubmedID = record.get("PMID", "null")[0]
+                taal = record.get("LA", "null")[0]
+                author = record.get("AU", "null")[0]
                 article_date = str(record.get("DP", "null"))
                 for plant_compound in Chemicals:
-                    print(plant_compound)
-                    # print("lol")
-                    if plant_compound.lower() in fuse.lower():
-                        # print("lol")
-                        if len(opslag_record) == 0:
-                            opslag_record.append(record)
+                    if plant_compound.lower() in fuse.lower() and len(plant_compound) > 1:
+                        if added == False:
                             cur.execute('''
-                              INSERT INTO `Articles`(`Pubmed_ID`, `Article_name`, `Article_author`, `Article_year`,`Article_language`)
-                             VALUES(%s, %s, %s, %s, %s);
-                             ''', (pubmedID, title, author, article_date, taal))
-                        cur.execute('''
-                            SELECT ArticleID FROM Articles
-                            WHERE Pubmed_ID=%s
-                            ''', (pubmedID,))
-                        article_id = cur.fetchone()
-                        cur.execute('''
-                               INSERT INTO `Terms_found`(`Terms`)
-                               VALUES(%s);
-                                ''', (plant_compound,))
+                                        SELECT ArticleID
+                                        FROM Articles
+                                        WHERE Pubmed_ID =%s
+                                        ''', (pubmedID,))
+                            c = cur.fetchone()
+                            if c == None:
+                                counter += 1
+                                cur.execute('''
+                                  INSERT INTO `Articles`(`ArticleID`, `Pubmed_ID`, `Article_name`, `Article_author`, `Article_year`,`Article_language`)
+                                 VALUES(%s, %s, %s, %s, %s, %s);
+                                 ''', (counter, pubmedID, title, author, article_date, taal))
+                                added = True
+                                article_id = counter
+                            else:
+                                article_id = c[0]
                         cur.execute('''
                             SELECT TermsID FROM Terms_found
                             WHERE Terms=%s
                             ''', (plant_compound,))
                         terms_id = cur.fetchone()
-                        cur.execute('''
-                               INSERT INTO `Articles_Terms`(`Terms_found_TermsID`, `Articles_ArticleID`)
-                               VALUES(%s, %s);
-                                ''', (terms_id, article_id))
-                        # opslag_compound.append(plant_compound)
-            conn.commit()
+                        if terms_id == None:
+                            idcounter += 1
+                            cur.execute('''
+                                   INSERT INTO `Terms_found`(`TermsID`, `Terms`)
+                                   VALUES(%s, %s);
+                                    ''', (idcounter, plant_compound))
+                            cur.execute('''
+                                   INSERT INTO `Articles_Terms`(`Terms_found_TermsID`, `Articles_ArticleID`)
+                                   VALUES(%s, %s);
+                                    ''', (idcounter, article_id))
+                            cur.execute('''
+                                SELECT * FROM Search_Terms_Found
+                                WHERE `Search_SearchID`=%s AND `Terms_found_TermsID`=%s
+                                ''', (SearchID, idcounter))
+                            c = cur.fetchone()
+                            if c == None:
+                                cur.execute('''
+                                    INSERT INTO `Search_Terms_Found`(`Search_SearchID`, `Terms_found_TermsID`)
+                                    VALUES(%s, %s);
+                                    ''', (SearchID, idcounter))
+                        else:
+                            cur.execute('''
+                                   INSERT INTO `Articles_Terms`(`Terms_found_TermsID`, `Articles_ArticleID`)
+                                   VALUES(%s, %s);
+                                    ''', (terms_id[0], article_id))
+                            cur.execute('''
+                                SELECT * FROM Search_Terms_Found
+                                WHERE `Search_SearchID`=%s AND `Terms_found_TermsID`=%s
+                                ''', (SearchID, idcounter))
+                            c = cur.fetchone()
+                            if c == None:
+                                cur.execute('''
+                                    INSERT INTO `Search_Terms_Found`(`Search_SearchID`, `Terms_found_TermsID`)
+                                    VALUES(%s, %s);
+                                    ''', (SearchID, terms_id[0]))
+                        conn.commit()
             cur.close()
             conn.close()
+
             #flash("hello world!")
     return render_template("Busy.html")
     # elif request.method == ['GET']:
