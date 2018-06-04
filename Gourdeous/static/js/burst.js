@@ -1,3 +1,13 @@
+/*
+    This javascript is responsible for creating the sunburst visualisation using the d3 library.
+    The sunburst is then placed in the html in the tag <svg> which this script also creates.
+
+    Authors: Rogier and Awan
+
+    Known bugs: Can't extract articles from the json file yet.
+ */
+
+//This function is called by the sunburst.html and contains all the code in this file since it has to run it all.
 ! function () {
 var width = 700,
     height = 700,
@@ -78,7 +88,7 @@ d3.json("static/js/example.json", function(error, root) {
 });
 
 function showArticles() {
-    var name = d3.select(this).attr("name");
+    var searchName = d3.select(this).attr("name");
     /*
     d3.json("static/js/example2.json", function(error, data) {
         if (error) throw error;
@@ -107,15 +117,58 @@ function showArticles() {
             {
                 var allText = rawFile.responseText;
                 var x = JSON.parse(allText);
-                alert(x.children[0].children[0].children[0].name);
+                var nodesByPathMatchingName = {};
+                function matchesName(node, path) {
+                   if(node.name === searchName) {
+                      nodesByPathMatchingName[path.join(':')] = node;
+                   }
+                }
+                forEachNodeInJSONDoc(myJSON, matchesName);
+                // Nodes by path now contains a key for each path (eg "1:2:5") that had the name level3 with the actual node as the value
+
+                /*
+                var articles =  x.filter(function(art) {
+                    return art.name == searchName;
+                });
+                console.log(articles);
+                alert(articles);
+                */
+
+
+                /*
+                alert(x.Organism)
+                for (key in x) {
+                    if (x.hasOwnProperty(key)) {
+                        console.log("nr1: "+key + " = " + x[key]);
+                        //alert(key + " = " + x[key]);
+                        for (HB in x[key]) {
+                            if (key.hasOwnProperty(HB)) {
+                                console.log("nr2: "+HB + " = " + key[HB]);
+                                //alert(HB + " = " + key[HB]);
+                            }
+                        }
+                    }
+                }
+                */
+                /*alert(x.children[0].children[0].children[0].name);
                 console.log(x);
                 for (var compound in x.children[0].children[0].children){
                     alert(compound.name);
-                }
+                }*/
             }
         }
     };
     rawFile.send(null);
+}
+
+function forEachNodeInJSONDoc(jsonDoc, callbackFn, pathArray) {
+   const rootPathArray = pathArray ? pathArray.slice() : [];
+   Object.keys(jsonDoc).forEach(function(key) {
+       var childPath = rootPathArray.slice();
+       childPath.push(key);
+       callbackFn(jsonDoc[key], childPath);
+       forEachNodeInJSONDoc(jsonDoc[key], callbackFn, childPath);
+   });
 }
 
 // This function is called when a user double clicks on a node. It will make this node the new center of the sunburst
