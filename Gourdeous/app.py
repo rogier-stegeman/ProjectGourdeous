@@ -28,8 +28,8 @@ def textmine():
 
 @app.route('/textmine', methods=['POST'])
 def submitter():
-    if request.method == 'POST':
-        if request.form['submit'] == 'submitter':
+   # if request.method == 'POST':
+    #    if request.form['submit'] == 'submitter':
             plant = request.form['search1']
             health = request.form['search2']
             email = request.form['search3']
@@ -136,10 +136,10 @@ def submitter():
             cur.close()
             conn.close()
             return render_template("Busy.html")
-    elif request.method == ['GET']:
-        return render_template("textmine.html")
-    else:
-        return render_template("textmine.html")
+  #  elif request.method == ['GET']:
+   #     return render_template("textmine.html")
+   # else:
+   #     return render_template("textmine.html")
 
 
 @app.route('/sunburst')
