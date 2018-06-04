@@ -14,7 +14,7 @@
      ]
     },
     {
-     "name": "graph",
+     "name": "Layout",
      "children": [
       {"name": "BetweennessCentrality", "size": 3534},
       {"name": "LinkDistance", "size": 5731},
@@ -32,7 +32,7 @@
    ]
   },
   {
-   "name": "animate",
+   "name": "layout",
    "children": [
     {"name": "Easing", "size": 17010},
     {"name": "FunctionSequence", "size": 5842},
@@ -241,7 +241,7 @@
    ]
   },
   {
-   "name": "vis",
+   "name": "Layout",
    "children": [
     {
      "name": "axis",
@@ -270,7 +270,7 @@
      ]
     },
     {
-     "name": "data",
+     "name": "Layout",
      "children": [
       {"name": "Data", "size": 20544},
       {"name": "DataList", "size": 19788},
@@ -309,7 +309,7 @@
      ]
     },
     {
-     "name": "operator",
+     "name": "Layout",
      "children": [
       {
        "name": "distortion",
@@ -347,7 +347,7 @@
        ]
       },
       {
-       "name": "layout",
+       "name": "Layout",
        "children": [
         {"name": "AxisLayout", "size": 6725},
         {"name": "BundledEdgeRouter", "size": 3727},
@@ -366,7 +366,7 @@
         {"name": "TreeMapLayout", "size": 9191}
        ]
       },
-      {"name": "Operator", "size": 2490},
+      {"name": "Layout", "size": 2490},
       {"name": "OperatorList", "size": 5248},
       {"name": "OperatorSequence", "size": 4190},
       {"name": "OperatorSwitch", "size": 2581},

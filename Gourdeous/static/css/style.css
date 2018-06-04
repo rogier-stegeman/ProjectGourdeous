@@ -1,5 +1,52 @@
-html
-{ height: 100%;}
+#article-field{
+    width: 500px;
+    float: right;
+}
+
+#cook-top {
+    height: 400px;
+    width: 878px;
+    position: relative;
+    right: 26px;
+    line-height: 400px;
+}
+
+#cook-top-bg{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: #F0EFE2 url(../imgs/kitchen.jpg) no-repeat;
+    background-size: 100% auto;
+    opacity: 0.4;
+}
+
+#Gourdon{
+    display: inline;
+    font-size: 300%;
+    font-weight: bold;
+}
+
+#gordon-pic{
+    width: 300px;
+    height: auto;
+    float: right;
+    padding-top: 20px;
+    padding-right: 30px;
+    opacity: initial;
+}
+
+#highlight-button{
+    font-size: 150%;
+    width: 50%;
+}
+
+#vis{
+    width: 700px;
+}
+/*Template css*/
+html{
+    height: 100%;
+}
 
 *
 { margin: 0;
@@ -123,14 +170,14 @@ ol li
   color: #DDD;}
 
 #menubar
-{ width: 877px;
+{ width: 1279px;/*old 877*/
   height: 72px;
   padding: 0;
-  background: #29415D url(../imgs/menu.png) repeat-x;} 
+  background: #29415D url(../imgs/menu.png) repeat-x;}
 
 ul#menu, ul#menu li
 { float: left;
-  margin: 0; 
+  margin: 0;
   padding: 0;}
 
 ul#menu li
@@ -139,26 +186,26 @@ ul#menu li
 ul#menu li a
 { letter-spacing: 0.1em;
   font: normal 100% 'lucida sans unicode', arial, sans-serif;
-  display: block; 
-  float: left; 
+  display: block;
+  float: left;
   height: 37px;
   padding: 29px 26px 6px 26px;
   text-align: center;
   color: #FFF;
   text-transform: uppercase;
   text-decoration: none;
-  background: transparent;} 
+  background: transparent;}
 
 ul#menu li a:hover, ul#menu li.selected a, ul#menu li.selected a:hover
 { color: #FFF;
   background: #1C2C3E url(../imgs/menu_select.png) repeat-x;}
 
 #site_content
-{ width: 837px;
+{ width: 1239px; /*old 837*/
   overflow: hidden;
   margin: 0 auto 0 auto;
   padding: 20px 24px 20px 37px;
-  background: #FFF url(../imgs/content.png) repeat-y;} 
+  background: #FFF url(../imgs/contentv2.png) repeat-y;}
 
 .sidebar
 { float: right;
@@ -166,22 +213,22 @@ ul#menu li a:hover, ul#menu li.selected a, ul#menu li.selected a:hover
   padding: 0 15px 20px 15px;}
 
 .sidebar ul
-{ width: 178px; 
-  padding: 4px 0 0 0; 
+{ width: 178px;
+  padding: 4px 0 0 0;
   margin: 4px 0 30px 0;}
 
 .sidebar li
-{ list-style: none; 
+{ list-style: none;
   padding: 0 0 7px 0; }
 
 .sidebar li a, .sidebar li a:hover
 { padding: 0 0 0 40px;
   display: block;
-  background: transparent url(../imgs/link.png) no-repeat left center;} 
+  background: transparent url(../imgs/link.png) no-repeat left center;}
 
 .sidebar li a.selected
 { color: #444;
-  text-decoration: none;} 
+  text-decoration: none;}
 
 #content
 { text-align: left;
@@ -194,16 +241,16 @@ ul#menu li a:hover, ul#menu li.selected a, ul#menu li.selected a:hover
 #content ul li
 { list-style-type: none;
   background: url(../imgs/bullet.png) no-repeat;
-  margin: 0 0 6px 0; 
+  margin: 0 0 6px 0;
   padding: 0 0 4px 25px;
   line-height: 1.5em;}
 
 #footer
-{ width: 874px;
+{ width: 1279px;/*old 874*/
   font: normal 60% 'lucida sans unicode', arial, sans-serif;
   height: 33px;
   padding: 24px 0 5px 0;
-  text-align: center; 
+  text-align: center;
   background: #29425E url(../imgs/footer.png) repeat-x;
   color: #FFF;
   text-transform: uppercase;
@@ -218,10 +265,10 @@ ul#menu li a:hover, ul#menu li.selected a, ul#menu li.selected a:hover
   text-decoration: underline;}
 
 .search
-{ color: #5D5D5D; 
-  border: 1px solid #BBB; 
-  width: 134px; 
-  padding: 4px; 
+{ color: #5D5D5D;
+  border: 1px solid #BBB;
+  width: 134px;
+  padding: 4px;
   font: 100% arial, sans-serif;}
 
 .form_settings
@@ -231,39 +278,39 @@ ul#menu li a:hover, ul#menu li.selected a, ul#menu li.selected a:hover
 { padding: 0 0 4px 0;}
 
 .form_settings span
-{ float: left; 
-  width: 200px; 
+{ float: left;
+  width: 200px;
   text-align: left;}
-  
+
 .form_settings input, .form_settings textarea
-{ padding: 5px; 
-  width: 299px; 
-  font: 100% arial; 
-  border: 1px solid #E5E5DB; 
-  background: #FFF; 
+{ padding: 5px;
+  width: 299px;
+  font: 100% arial;
+  border: 1px solid #E5E5DB;
+  background: #FFF;
   color: #47433F;}
-  
+
 .form_settings .submit
-{ font: 100% arial; 
-  border: 1px solid; 
-  width: 99px; 
-  margin: 0 0 0 212px; 
+{ font: 100% arial;
+  border: 1px solid;
+  width: 99px;
+  margin: 0 0 0 212px;
   height: 33px;
   padding: 2px 0 3px 0;
-  cursor: pointer; 
-  background: #263C56; 
+  cursor: pointer;
+  background: #263C56;
   color: #FFF;}
 
 .form_settings textarea, .form_settings select
-{ font: 100% arial; 
+{ font: 100% arial;
   width: 299px;}
 
 .form_settings select
 { width: 310px;}
 
 .form_settings .checkbox
-{ margin: 4px 0; 
-  padding: 0; 
+{ margin: 4px 0;
+  padding: 0;
   width: 14px;
   border: 0;
   background: none;}
@@ -274,7 +321,7 @@ ul#menu li a:hover, ul#menu li.selected a, ul#menu li.selected a:hover
   border-top: 1px solid #D9D5CF;
   border-bottom: 1px solid #FFF;
   margin: 0 0 20px 0;}
-  
+
 table
 { margin: 10px 0 30px 0;}
 
@@ -283,47 +330,14 @@ table tr th, table tr td
   color: #FFF;
   padding: 7px 4px;
   text-align: left;}
-  
+
 table tr td
 { background: #F0EFE2;
   color: #47433F;
   border-top: 1px solid #FFF;}
 
-#Gourdon{
-    display: inline;
-    font-size: 300%;
-    font-weight: bold;
-}
-
-#cook-top {
-    height: 400px;
-    width: 878px;
-    position: relative;
-    right: 26px;
-    line-height: 400px;
-
-}
-
-#cook-top-bg{
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background: #F0EFE2 url(../imgs/kitchen.jpg) no-repeat;
-    background-size: 100% auto;
-    opacity: 0.4;
-}
-#gordon-pic{
-    width: 300px;
-    height: auto;
-    float: right;
-    padding-top: 20px;
-    padding-right: 30px;
-    opacity: initial;
-}
-
 
 /* Sunburst css */
-
 path {
     stroke: #000;
     cursor: pointer;

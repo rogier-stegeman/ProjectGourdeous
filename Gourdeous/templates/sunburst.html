@@ -1,3 +1,16 @@
+<!--
+    Description:
+        Html for the sunburst page of the website. This page is responsible for the visualisation of the gathered data.
+        This is done via a sunburst diagram using the d3 library. The sunburst is made in a JavaScript file.
+        Sunburst template acquired from: https://bl.ocks.org/kerryrodden/477c1bfb081b783f80ad
+
+    Known bugs:
+
+    Author: Rogier
+
+    Last update: 02/06/2018
+-->
+<!-- Flask/Jinja template code-->
 {% extends 'layout.html' %}
 {% block title %}Sunburst graph{% endblock %}
 {% block scripts %}
@@ -13,26 +26,33 @@ function myFunction() {
 </script>
 {% endblock %}
 {% block content %}
-
-    <button onclick="test()">Click me</button>
-    <form>
-    <input type="text" value="Highlight">
-    </form>
-
+    <div style="width: 200px" class="outer">
+        <form>
+            <input type="text" value="Enter text" id="highlightWord" style="width: 200px">
+            <!-- Deprecated -->
+            <div style="display: flex; justify-content: space-between">
+                <!--<input class="inner" id="highlight-button" type="button" value="Highlight" onclick="highlighter()" style="margin-top: 5px"> -->
+                <input class="inner" id="highlightClear" type="button" value="Clear" onclick="highlighterClear()" style="margin: 5px 0px 0px 5px">
+            </div>
+            <!---->
+        </form>
+    </div>
+    <!-- Importing the d3 library from d3js.org and calling the JavaScript file to construct the sunburst -->
     <script src="https://d3js.org/d3.v4.min.js"></script>
         <div id="sunburst">
+        <div id="article-field">
+                Articles go here<br>
+            Articles go here<br>
+            Articles go here<br>Articles go here<br>
+            Articles go here<br>Articles go here<br>
+
+            </div>
             <div id="vis"></div>
             <script src="{{ url_for('static', filename='js/burst.js') }}"></script>
+
         </div>
     <script>
 
-    function test(){
-    d3.selectAll("path")
-        .on("mouseover", function(){
-            d3.select(this).style("fill","blue");
-        });
-
-    }
 </script>
 
 {% endblock %}
