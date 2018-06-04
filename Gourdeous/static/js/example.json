@@ -1,0 +1,122 @@
+{
+  "name": "Organism",
+  "children": [
+    {
+      "name": "Bitter Gourd",
+      "children": [
+        {
+          "name": "Diabetes",
+          "children": [
+            {
+              "name": "methanol",
+              "size": 3938,
+              "articles" : [
+                ["www.pubmed.gov/racecar methanol study",1000],
+                ["www.pubmed.gov/beer destroys fat levels",500],
+                ["www.pubmed.gov/Bitter gourd tea recipes",3021]
+              ]
+            },
+            {
+              "name": "Kalium",
+              "size": 3812
+            },
+            {
+              "name": "Natrium",
+              "size": 6714
+            }
+          ]
+        },
+        {
+          "name": "Cancer",
+          "children": [
+            {
+              "name": "Gold",
+              "size": 3534
+            },
+            {
+              "name": "Pigment",
+              "size": 5731
+            },
+            {
+              "name": "Cyanide",
+              "size": 7840
+            },
+            {
+              "name": "Cocaine",
+              "size": 5914
+            },
+            {
+              "name": "Silver",
+              "size": 3416
+            }
+          ]
+        },
+        {
+          "name": "Hyperactivity",
+          "children": [
+            {
+              "name": "Sugar",
+              "size": 7074
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Yam",
+      "children": [
+        {
+          "name": "Diabetes",
+          "children": [
+            {
+              "name": "methanol",
+              "size": 4938
+            },
+            {
+              "name": "Kalium",
+              "size": 312
+            },
+            {
+              "name": "Natrium",
+              "size": 2714
+            }
+          ]
+        },
+        {
+          "name": "Cancer",
+          "children": [
+            {
+              "name": "Gold",
+              "size": 2534
+            },
+            {
+              "name": "Pigment",
+              "size": 9731
+            },
+            {
+              "name": "Cyanide",
+              "size": 240
+            },
+            {
+              "name": "Cocaine",
+              "size": 1914
+            },
+            {
+              "name": "Silver",
+              "size": 5416
+            }
+          ]
+        },
+        {
+          "name": "Hyperactivity",
+          "children": [
+            {
+              "name": "Sugar",
+              "size": 707
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,52 @@
-html
-{ height: 100%;}
+#article-field{
+    width: 500px;
+    float: right;
+}
+
+#cook-top {
+    height: 400px;
+    width: 878px;
+    position: relative;
+    right: 26px;
+    line-height: 400px;
+}
+
+#cook-top-bg{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: #F0EFE2 url(../imgs/kitchen.jpg) no-repeat;
+    background-size: 100% auto;
+    opacity: 0.4;
+}
+
+#Gourdon{
+    display: inline;
+    font-size: 300%;
+    font-weight: bold;
+}
+
+#gordon-pic{
+    width: 300px;
+    height: auto;
+    float: right;
+    padding-top: 20px;
+    padding-right: 30px;
+    opacity: initial;
+}
+
+#highlight-button{
+    font-size: 150%;
+    width: 50%;
+}
+
+#vis{
+    width: 700px;
+}
+/*Template css*/
+html{
+    height: 100%;
+}
 
 *
 { margin: 0;
@@ -288,39 +335,6 @@ table tr td
 { background: #F0EFE2;
   color: #47433F;
   border-top: 1px solid #FFF;}
-
-#Gourdon{
-    display: inline;
-    font-size: 300%;
-    font-weight: bold;
-}
-
-#cook-top {
-    height: 400px;
-    width: 878px;
-    position: relative;
-    right: 26px;
-    line-height: 400px;
-
-}
-
-#cook-top-bg{
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background: #F0EFE2 url(../imgs/kitchen.jpg) no-repeat;
-    background-size: 100% auto;
-    opacity: 0.4;
-}
-
-#gordon-pic{
-    width: 300px;
-    height: auto;
-    float: right;
-    padding-top: 20px;
-    padding-right: 30px;
-    opacity: initial;
-}
 
 
 /* Sunburst css */
