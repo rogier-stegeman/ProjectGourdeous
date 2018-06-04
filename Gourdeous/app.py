@@ -10,9 +10,11 @@ app = Flask(__name__)
 def index():
     return redirect(url_for('home'))
 
+
 @app.route('/home')
 def home():
     return render_template('home.html')
+
 
 @app.route('/textmine')
 def textmine():
@@ -27,6 +29,7 @@ def submitter():
     email = request.form['searchMail']
     Gourdeous_textminer.main(organisme,zoekwoord,email)
     return render_template("Done.html")
+
 
 
 @app.route('/sunburst')

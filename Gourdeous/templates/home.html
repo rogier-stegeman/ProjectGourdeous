@@ -1,16 +1,26 @@
+<!--
+    Description:
+        Html for the homepage of the website. Provides some background information.
+
+    Known bugs:
+
+    Author: Bram
+
+    Last update: 02/06/2018
+-->
+<!-- Flask/Jinja template code-->
 {% extends "layout.html" %}
-
-{% block title %}{% block title1 %}Home{% endblock %}{% block title2 %}page{% endblock %}{% endblock %}
-
+{% block title %}Homepage{% endblock %}
 {% block content %}
-    <div >Homepage</div>
     <div >
+
     <p>Gourdeous textmining application is an application that was made to answer the question which compounds in bitter gourd have a anti diabetic effect.
         The application also looks at compounds in yam that have a anti diabetic effect and compares them to the compounds in bitter gourd to see if there is any overlap.
         The compounds of these plants and their health effect are visualised in a sunburst.
         This application is also capable to expend the sunburst with new data by using the data mine function to look at other plants and health effects.
         On the textmine page you will be able to expand the database by performing textmining with additional organisms and health effects that you can input yourself.
         The help page contains additional information about the application, how to work with the application, and a way to contact us for additional support if you require help.
+
     </p>
     </div>
 {% endblock %}
