@@ -1,6 +1,16 @@
+<!--
+    Description:
+        Html template file. Provides the html backbone which the other html files use to create web pages.
+        The "{% block block_name %}{% endblock %}" declarations allow the other html files to insert code.
+
+    Known bugs:
+
+    Author: Rogier
+
+    Last update: 02/06/2018
+-->
 <!DOCTYPE HTML>
 <html>
-
 <head>
   {% block head %}
   <title>{% block title %}{% endblock %} - Gourdeous</title>
@@ -29,11 +39,9 @@
       </div>
     </div>
     <div id="site_content">
-      <di8v id="content">
-        {{ request.path }}
-      {% if request.path=="/help" %}HELPHELPEPL{% endif %}
+      <div id="content">
         {% block content %}{% endblock %}
-      </di8v>
+      </div>
     </div>
     <div id="content_footer"></div>
     <div id="footer">

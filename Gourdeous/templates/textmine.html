@@ -1,7 +1,16 @@
+<!--
+    Description:
+        Html for the textmine page of the website. Takes user input and passes it on the the textmining script.
+
+    Known bugs:
+
+    Author: Bram
+
+    Last update: 02/06/2018
+-->
+<!-- Flask/Jinja template code-->
 {% extends "layout.html" %}
-
 {% block title %}Textminer{% endblock %}
-
 {% block content %}
     <h1>
         Input page
@@ -17,12 +26,7 @@
             <input type="text" name="searchMail" value="e-mail">
             <input type="submit" name="submitter" value="GoMine">
         </form>
-{#        <form>#}
-{#            <select action="../textmine" name= organisms method="GET">#}
-{#                {% for organism in organisms %}#}
-{#                <option value= "{{organism}}" SELECTED>{{organism}}</option>"#}
-{#                {% endfor %}#}
-{#            </select>#}
+
             <!--<select name= compounds method="GET" action="/textmine">-->
                 <!--{% for compound in compounds %}-->
                 <!--<option value= "{{compound}}" SELECTED>{{compound}}</option>"-->
