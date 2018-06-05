@@ -39,7 +39,7 @@ var svg = d3.select("#vis").append("svg")
     .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
 
 // Load the json file
-d3.json("static/js/example.json", function(error, root) {
+d3.json("static/js/Jason.json", function(error, root) {
     if (error) throw error;
     root = d3.hierarchy(root);
     root.sum(function(d) { return d.size; });
@@ -50,7 +50,7 @@ d3.json("static/js/example.json", function(error, root) {
         path.append("path")
         .attr("d", arc)
             .attr("name",function (name) {return name.data.name})
-
+            .attr("articles", function (name) {return name.data.articles})
         .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
             .on("click", showArticles)
         .on("dblclick", zoom)
@@ -89,89 +89,60 @@ d3.json("static/js/example.json", function(error, root) {
 
 function showArticles() {
     var searchName = d3.select(this).attr("name");
-    /*
-    d3.json("static/js/example2.json", function(error, data) {
-        if (error) throw error;
-        //alert(data[0].children[0].children[0].children[0].articles[0][0]);
-        alert(data.size());
-        for (var key in data){
-            for (var key2 in key){
-                alert(key2);
-                for (var compound in key2){
-                    alert(compound);
-                }
-            }
-        }
-    */
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "static/js/example.json", false);
-    rawFile.onreadystatechange = function ()
-    {
-        if(rawFile.readyState === 4)
-        {
-            if(rawFile.status === 200 || rawFile.status == 0)
-            {
-                var allText = rawFile.responseText;
-                var x = JSON.parse(allText);
-                var nodesByPathMatchingName = {};
-                function matchesName(node, path) {
-                   if(node.name === searchName) {
-                      nodesByPathMatchingName[path.join(':')] = node;
-                   }
-                }
-                forEachNodeInJSONDoc(myJSON, matchesName);
-                // Nodes by path now contains a key for each path (eg "1:2:5") that had the name level3 with the actual node as the value
-
-                /*
-                var articles =  x.filter(function(art) {
-                    return art.name == searchName;
-                });
-                console.log(articles);
-                alert(articles);
-                */
-
-
-                /*
-                alert(x.Organism)
-                for (key in x) {
-                    if (x.hasOwnProperty(key)) {
-                        console.log("nr1: "+key + " = " + x[key]);
-                        //alert(key + " = " + x[key]);
-                        for (HB in x[key]) {
-                            if (key.hasOwnProperty(HB)) {
-                                console.log("nr2: "+HB + " = " + key[HB]);
-                                //alert(HB + " = " + key[HB]);
-                            }
-                        }
-                    }
-                }
-                */
-                /*alert(x.children[0].children[0].children[0].name);
-                console.log(x);
-                for (var compound in x.children[0].children[0].children){
-                    alert(compound.name);
-                }*/
-            }
-        }
-    };
-    rawFile.send(null);
+    var articleArray = d3.select(this).attr("articles");
+    //alert(searchName+" - "+articleArray);
+    var articles = articleArray.split(",");
+    var tableArray = [];
+    var index = 0;
+    for (var i1=0,i2=1,  tot=articles.length; i1 < tot; i1+=3,i2+=3) {
+        //var link = "<a href='"+articles[i2]+"'>"+articles[i1]+"</a>";
+        tableArray.push([[articles[i1],articles[i2]]]);
+    }
+    for (var i2=1, i1=3, i3=0, tot=articles.length; i2 < tot; i2+=3,i3++, i1+=3) {
+        index = i1 - 1;
+        tableArray[i3].push(articles[index]);
+    }
+    console.log(tableArray);
+    //alert(tableArray);
+    //var testA = [["titel1","www.pubmed.gov/racecar_methanol_study",1000],["tital2","www.pubmed.gov/beer_destroys_fat_levels",500],["titel3","www.pubmed.gov/Bittergourd_tea_recipes",3021]];
+    createTable(tableArray);
 }
 
-function forEachNodeInJSONDoc(jsonDoc, callbackFn, pathArray) {
-   const rootPathArray = pathArray ? pathArray.slice() : [];
-   Object.keys(jsonDoc).forEach(function(key) {
-       var childPath = rootPathArray.slice();
-       childPath.push(key);
-       callbackFn(jsonDoc[key], childPath);
-       forEachNodeInJSONDoc(jsonDoc[key], callbackFn, childPath);
-   });
+
+function createTable(tableData) {
+    var table = document.createElement('table');
+    var tableBody = document.createElement('tbody');
+
+    tableData.forEach(function(rowData) {
+        var row = document.createElement('tr');
+        rowData.forEach(function(cellData) {
+        var cell = document.createElement('td');
+        console.log("cell: "+cellData);
+        if (cellData.includes("www.")){
+            cell.appendChild(document.createTextNode(""));
+        } else {
+            cell.appendChild(document.createTextNode(cellData));
+        }
+        row.appendChild(cell);
+
+    });
+
+    tableBody.appendChild(row);
+  });
+
+  table.appendChild(tableBody);
+  document.getElementById("article-field").appendChild(table);
+    //alert(table);
+    console.log(table);
+    return table;
 }
+
 
 // This function is called when a user double clicks on a node. It will make this node the new center of the sunburst
 // by zooming in on it and adjusting the other nodes.
 function zoom(d) {
   svg.transition()
-      .duration(1500)
+      .duration(700)
       .tween("scale", function() {
         var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
             yd = d3.interpolate(y.domain(), [d.y0, 1]),
@@ -236,16 +207,24 @@ d3.select("#highlightWord").on("input", function() {
 
 
 /*
-function highlighter() {
-    var name = d3.select("#highlightWord").text();
-    alert(name);
-    var col = d3.select(this).style("fill");
-    d3.selectAll("path")
-        .filter(function (d) {
-        return d3.select(this).attr("name") === name;
-        })
-        .style('fill', 'orange')
-        .style('stroke','#ff0d3c')
-        .style("stroke-width","3");
+function showArticles() {
+    var searchName = d3.select(this).attr("name");
+    var articleArray = d3.select(this).attr("articles");
+    alert(searchName+" - "+articleArray);
+    var articles = articleArray.split(",");
+    var tableArray = [];
+    var index = 0;
+    for (var i1=0,  tot=articles.length; i1 < tot; i1+=3) {
+        tableArray.push([articles[i1]]);
+    }
+    for (var i2=1, i1=2, i3=0, tot=articles.length; i2 < tot; i2+=2,i3++, i1+=2) {
+        index = i1 - 1;
+        tableArray[i3].push(articles[index]);
+    }
+    console.log(tableArray);
+    alert(tableArray);
+    var testA = [["www.pubmed.gov/racecar_methanol_study",1000],["www.pubmed.gov/beer_destroys_fat_levels",500],["www.pubmed.gov/Bittergourd_tea_recipes",3021]];
+    createTable(testA);
 }
 */
+
