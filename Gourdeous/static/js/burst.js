@@ -176,7 +176,7 @@ function createTable(tableData) {
   });
 
   table.appendChild(tableBody);
-  document.getElementById("article-field").appendChild(table);
+  document.getElementById("article-field-list").appendChild(table);
     //alert(table);
     console.log(table);
     return table;
