@@ -25,6 +25,7 @@ def Connection():
 def Inlezen(con):
     #Functie om de data uit de database te halen en in Json formaat te parsen.
     cur = con.cursor(buffered=True)
+    #zorgt voor de startID van de organismes
     cur.execute('''
                 SELECT SearchID
                 FROM Search
@@ -35,6 +36,7 @@ def Inlezen(con):
     c = cur.fetchone()
     counter= c[0]
     counterOrganism = 0
+    #opent een Jsonfile in de Flask directory
     file = open("/home/owe8_pg9/public_html/Gourdeous/static/js/Jason.json", "wb")#File word geopend om de data in weg te schrijven
     #SQL statement voor selecteren van de organismes uit de database
     cur.execute('''
@@ -42,15 +44,18 @@ def Inlezen(con):
                 FROM Organism
                 ''')
     c = cur.fetchall()
+    #schrijft het organisme voor de binnenste  cirkel
     file.write('''{"name": "Organism","children": [{''')
     e = True
     #Het aantal organismen in de database is de eerste iteratie
     for elements in c:
+        #constructie om te zorgen dat de eerste entry geen komma aan het begin heeft
         if e == True:
             file.write('''"name":"%s","children":[{''' % c[counterOrganism][1])
             e = False
         else:
             file.write(''',{"name":"%s","children":[{''' % c[counterOrganism][1])
+        #selecteert alle search waarden en zet deze in de lijst
         cur.execute('''
                     SELECT Keyword
                     FROM Search
@@ -60,6 +65,8 @@ def Inlezen(con):
         #Deze loop itereert over de keywords in de database
         w = True
         for word in keywords:
+            #nogmaals dezelfde constructie
+            #schrijft de naam van de search naar de Json
             if w == True:
                 file.write('''"name": "%s","children":[{''' % word)
                 w = False
@@ -77,16 +84,16 @@ def Inlezen(con):
             t = True
             articleslist = []
             compounds = []
+            #Itereert over de compounds bij de search term
             for termID in terms:
-                print(compounds)
-                print(len(articleslist))
+                #selecteert de bijhorende term
                 cur.execute('''
                             SELECT Terms
                             FROM Terms_found
                             WHERE TermsID=%s
                             ''', (termID[0],))
                 term = cur.fetchone()
-                print(term)
+                #wanneer term niet in de lijst zit
                 if term[0] not in compounds:
                     compounds.append(term[0])
                     cur.execute('''
@@ -101,7 +108,6 @@ def Inlezen(con):
                                                 WHERE Terms_found_TermsID=%s
                                                 ''', (termsID[0],))
                     articles = cur.fetchall()
-                    # print(articles)
                     # Deze loop itereert over de artikelen in de database
                     a = True
                     articlelist = []
@@ -115,7 +121,6 @@ def Inlezen(con):
                         articlelist.append(article)
                     articleslist.append(articlelist)
                 else:
-                    print("BRUH")
                     indexarticles = compounds.index(term[0])
                     cur.execute('''
                                  SELECT TermsID
@@ -143,16 +148,18 @@ def Inlezen(con):
                             articleslist[indexarticles].append(article)
 
                 counterarticles = 0
+            #Deze aparte loop is om te voorkomen dat er dubbele compounds bij dezelfde search term  komen te staan
             for compound in compounds:
+                #schrijf de compound namen naar de Json
                 if t==True:
                     file.write('''"name":"%s","size":%s,"articles":[''' % (compound, len(articleslist[counterarticles])))
                     t=False
                 else:
                     file.write(''',{"name":"%s","size":%s,"articles":[''' % (compound, len(articleslist[counterarticles])))
-                #print(articles)
                 #Deze loop itereert over de artikelen in de database
                 a = True
                 for art in articleslist[counterarticles]:
+                   #Schrijf de bijhorende artikelen naar de Json 
                     if a==True:
                         file.write('''["%s","https://www.ncbi.nlm.nih.gov/pubmed/%s"]''' % (art[1].replace('"', '').replace(",", ""), art[0].replace('"', '').replace(",", "")))
                         a=False
