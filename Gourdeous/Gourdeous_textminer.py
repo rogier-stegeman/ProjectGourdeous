@@ -12,10 +12,9 @@
 import time
 from Bio import Entrez
 from Bio import Medline
-# Can't use locally
-#import urllib2
-#import mysql.connector
-#import MySQLdb as my
+import urllib2
+import mysql.connector
+import MySQLdb as my
 import sys
 
 # De functies die worden uitgevoert als er op de website op de textmine knop wordt gedrukt

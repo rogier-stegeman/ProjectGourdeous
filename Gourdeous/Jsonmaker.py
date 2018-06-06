@@ -1,5 +1,4 @@
-#can't use locally
-#from mysql import connector
+from mysql import connector
 
 '''
 Name: Jsonmaker.py
