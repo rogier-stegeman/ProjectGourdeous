@@ -48,7 +48,7 @@
         .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
 
 // Load the json file
-    d3.json("static/js/Jason.json", function (error, root) {
+    d3.json("static/js/Jason2.json", function (error, root) {
 
         if (error) throw error;
         root = d3.hierarchy(root);
@@ -92,12 +92,7 @@
                 return d.data.name
             })
             .attr("pointer-event", "none")
-            .append("title",function(name) {
-                return name.data.name + "\n" + formatNumber(name.value)
-            })
-            .text(function(name) {
-                return name.data.name + "\n" + formatNumber(name.value);
-            });
+
         //.append("title",function(name) {return name.data.name + "\n" + formatNumber(name.value)})
         //.text(function(name) { /*alert("Q1"+ name+" "+name)*/;return name.data.name + "\n" + formatNumber(name.value)
         //.append("name",function (name) {return name.data.name})
@@ -176,7 +171,10 @@ function createTable(tableData) {
   });
 
   table.appendChild(tableBody);
-  document.getElementById("article-field-list").appendChild(table);
+  var afl = document.getElementById("article-field-list");
+  afl.removeChild(afl.childNodes[0]);
+
+  afl.appendChild(table);
     //alert(table);
     console.log(table);
     return table;
