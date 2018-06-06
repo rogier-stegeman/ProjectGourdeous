@@ -1,7 +1,6 @@
-from flask import Flask, render_template, url_for, request, redirect, flash
-from Bio import Entrez
+from flask import Flask, render_template, url_for, request, redirect
+#import Gourdeous_textminer
 
-from Bio import Medline
 
 
 app = Flask(__name__)
@@ -27,7 +26,7 @@ def submitter():
     organisme = request.form['searchPlant']
     zoekwoord = request.form['searchHealth']
     email = request.form['searchMail']
-    Gourdeous_textminer.main(organisme,zoekwoord,email)
+   # Gourdeous_textminer.main(organisme, zoekwoord, email)
     return render_template("Done.html")
 
 

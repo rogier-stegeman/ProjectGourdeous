@@ -253,3 +253,4 @@ def db_vullen(artikelen,plant,health, conn):
     finally:
         cur.close()
         conn.close()
+
