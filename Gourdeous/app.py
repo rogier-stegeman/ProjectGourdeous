@@ -32,10 +32,10 @@ def submitter():
     organisme = request.form['searchPlant']
     zoekwoord = request.form['searchHealth']
     email = request.form['searchMail']
-    data = entrez_search(organisme,zoekwoord,email)
-    con = connector()
+    #data = entrez_search(organisme,zoekwoord,email)
+    #con = connector()
     #return data
-    db_vullen(data, organisme, zoekwoord, con)
+   # db_vullen(data, organisme, zoekwoord, con)
     #Gourdeous_textminer.main(organisme, zoekwoord, email)
     return render_template("Done.html")
 
