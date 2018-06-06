@@ -1,0 +1,28 @@
+Verschillen tussen Ontwerp ERD naar uiteindelijke ERD applicatie
+Bij terms_found, Search, en Organism zijn er geen veranderingen uitgevoerd. Bij Articles zijn Pubmed_ID, Article_year en Article_language bij toegevoegd. Ook is de tabel Chemiclas toegevoegd. Chemicals is een onderdeel van het textmining gedeelte van de applicatie. Articles_Terms bevat twee foreign keys voor het verbinden van de tabellen. Search_Terms_found is toegevoegd en bevat een foreign key en Terms_found_TermsID. Terms_found is toegevoegd en bevat TermsID en Terms. 
+
+Ontwerp erd;
+Search;
+- searchID, keyword
+Terms_found;
+- termsID, terms
+Organism;
+- organismID, organism
+Articles;
+- ArticlesID, Article_name, Article_author
+
+uiteindelijk ERD;
+Articles;
+- ArticleID, Pubmed_ID, Article_name, Article_author, Article_year, Article_language
+Articles_Terms;
+- Terms_found_TermsID(foreign key), Articles_ArticleID(foreign key)
+Chemicals;
+- chemical_ID, chemical_name
+Organism;
+- Organism, OrganismID
+Search;
+- SearchID, Keyword, OrganismID_ID(foreign key)
+Search_terms_found;
+- Search_SearchID(foreign key), Terms_found_TermsID
+Terms_found
+- TermsID, Terms

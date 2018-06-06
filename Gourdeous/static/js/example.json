@@ -11,18 +11,28 @@
               "name": "methanol",
               "size": 3938,
               "articles" : [
-                ["www.pubmed.gov/racecar methanol study",1000],
-                ["www.pubmed.gov/beer destroys fat levels",500],
-                ["www.pubmed.gov/Bitter gourd tea recipes",3021]
+                ["titel1","www.pubmed.gov/racecar_methanol_study",1000],
+                ["titel2","www.pubmed.gov/beer_destroys_fat_levels",500],
+                ["titel3","www.pubmed.gov/Bittergourd_tea_recipes",3021]
               ]
             },
             {
               "name": "Kalium",
-              "size": 3812
+              "size": 3812,
+              "articles" : [
+                ["titel1","www.pubmed.gov/racecar_methanol_study",1000],
+                ["titel2","www.pubmed.gov/beer_destroys_fat_levels",500],
+                ["titel3","www.pubmed.gov/Bittergourd_tea_recipes",3021]
+              ]
             },
             {
               "name": "Natrium",
-              "size": 6714
+              "size": 6714,
+              "articles" : [
+                ["titel1","www.pubmed.gov/racecar_methanol_study",1000],
+                ["titel2","www.pubmed.gov/beer_destroys_fat_levels",500],
+                ["titel3","www.pubmed.gov/Bittergourd_tea_recipes",3021]
+              ]
             }
           ]
         },
@@ -31,23 +41,48 @@
           "children": [
             {
               "name": "Gold",
-              "size": 3534
+              "size": 3534,
+              "articles" : [
+                ["titel1","www.pubmed.gov/racecar_methanol_study",1000],
+                ["titel2","www.pubmed.gov/beer_destroys_fat_levels",500],
+                ["titel3","www.pubmed.gov/Bittergourd_tea_recipes",3021]
+              ]
             },
             {
               "name": "Pigment",
-              "size": 5731
+              "size": 5731,
+              "articles" : [
+                ["titel1","www.pubmed.gov/racecar_methanol_study",1000],
+                ["titel2","www.pubmed.gov/beer_destroys_fat_levels",500],
+                ["titel3","www.pubmed.gov/Bittergourd_tea_recipes",3021]
+              ]
             },
             {
               "name": "Cyanide",
-              "size": 7840
+              "size": 7840,
+              "articles" : [
+                ["titel1","www.pubmed.gov/racecar_methanol_study",1000],
+                ["titel2","www.pubmed.gov/beer_destroys_fat_levels",500],
+                ["titel3","www.pubmed.gov/Bittergourd_tea_recipes",3021]
+              ]
             },
             {
               "name": "Cocaine",
-              "size": 5914
+              "size": 5914,
+              "articles" : [
+                ["titel1","www.pubmed.gov/racecar_methanol_study",1000],
+                ["titel2","www.pubmed.gov/beer_destroys_fat_levels",500],
+                ["titel3","www.pubmed.gov/Bittergourd_tea_recipes",3021]
+              ]
             },
             {
               "name": "Silver",
-              "size": 3416
+              "size": 3416,
+              "articles" : [
+                ["titel1","www.pubmed.gov/racecar_methanol_study",1000],
+                ["titel2","www.pubmed.gov/beer_destroys_fat_levels",500],
+                ["titel3","www.pubmed.gov/Bittergourd_tea_recipes",3021]
+              ]
             }
           ]
         },
@@ -56,63 +91,12 @@
           "children": [
             {
               "name": "Sugar",
-              "size": 7074
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Yam",
-      "children": [
-        {
-          "name": "Diabetes",
-          "children": [
-            {
-              "name": "methanol",
-              "size": 4938
-            },
-            {
-              "name": "Kalium",
-              "size": 312
-            },
-            {
-              "name": "Natrium",
-              "size": 2714
-            }
-          ]
-        },
-        {
-          "name": "Cancer",
-          "children": [
-            {
-              "name": "Gold",
-              "size": 2534
-            },
-            {
-              "name": "Pigment",
-              "size": 9731
-            },
-            {
-              "name": "Cyanide",
-              "size": 240
-            },
-            {
-              "name": "Cocaine",
-              "size": 1914
-            },
-            {
-              "name": "Silver",
-              "size": 5416
-            }
-          ]
-        },
-        {
-          "name": "Hyperactivity",
-          "children": [
-            {
-              "name": "Sugar",
-              "size": 707
+              "size": 7074,
+              "articles" : [
+                ["titel1","www.pubmed.gov/racecar_methanol_study",1000],
+                ["titel2","www.pubmed.gov/beer_destroys_fat_levels",500],
+                ["titel3","www.pubmed.gov/Bittergourd_tea_recipes",3021]
+              ]
             }
           ]
         }

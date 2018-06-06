@@ -1,3 +1,13 @@
+/*
+    This javascript is responsible for creating the sunburst visualisation using the d3 library.
+    The sunburst is then placed in the html in the tag <svg> which this script also creates.
+
+    Authors: Rogier and Awan
+
+    Known bugs: Can't extract articles from the json file yet.
+ */
+
+//This function is called by the sunburst.html and contains all the code in this file since it has to run it all.
 ! function () {
     var width = 700,
         height = 700,
@@ -80,8 +90,13 @@
             .text(function (d) {
                 return d.data.name
             })
-            .attr("pointer-event", "none");
-
+            .attr("pointer-event", "none")
+            .append("title",function(name) {
+                return name.data.name + "\n" + formatNumber(name.value)
+            })
+            .text(function(name) { 
+                return name.data.name + "\n" + formatNumber(name.value);
+            });
         //.append("title",function(name) {return name.data.name + "\n" + formatNumber(name.value)})
         //.text(function(name) { /*alert("Q1"+ name+" "+name)*/;return name.data.name + "\n" + formatNumber(name.value)
         //.append("name",function (name) {return name.data.name})
@@ -101,10 +116,8 @@
                     return function (t) {
                         x.domain(xd(t));
                         y.domain(yd(t)).range(yr(t));};})
-
-
                  .attrTween("d", function (d) {
-            return function () {return arc(d);};})
+                 return function () {return arc(d);};})
         .on("end", function (e, i) {
             if(e.x0 >= d.x0 && e.x0 < (d.x1)){
                 var arcText = d3.select(this.parentNode).select("text");
@@ -119,25 +132,27 @@
 
 d3.select(self.frameElement).style("height", height + "px");
 
-    function showArticles() {
-        var name = d3.select(this).attr("name");
-        var rawFile = new XMLHttpRequest();
-        rawFile.open("GET", "static/js/example.json", false);
-        rawFile.onreadystatechange = function () {
-            if (rawFile.readyState === 4) {
-                if (rawFile.status === 200 || rawFile.status == 0) {
-                    var allText = rawFile.responseText;
-                    var x = JSON.parse(allText);
-                    //alert(x.children[0].children[0].children[0].name);
-                    console.log(x);
-                    for (var compound in x.children[0].children[0].children) {
-                        //alert(compound.name);
-                    }
-                }
-            }
-        };
-        rawFile.send(null);
+  function showArticles() {
+    var searchName = d3.select(this).attr("name");
+    var articleArray = d3.select(this).attr("articles");
+    //alert(searchName+" - "+articleArray);
+    var articles = articleArray.split(",");
+    var tableArray = [];
+    var index = 0;
+    for (var i1=0,i2=1,  tot=articles.length; i1 < tot; i1+=3,i2+=3) {
+        //var link = "<a href='"+articles[i2]+"'>"+articles[i1]+"</a>";
+        tableArray.push([[articles[i1],articles[i2]]]);
     }
+    for (var i2=1, i1=3, i3=0, tot=articles.length; i2 < tot; i2+=3,i3++, i1+=3) {
+        index = i1 - 1;
+        tableArray[i3].push(articles[index]);
+    }
+    console.log(tableArray);
+    //alert(tableArray);
+    //var testA = [["titel1","www.pubmed.gov/racecar_methanol_study",1000],["tital2","www.pubmed.gov/beer_destroys_fat_levels",500],["titel3","www.pubmed.gov/Bittergourd_tea_recipes",3021]];
+    createTable(tableArray);
+}
+
 
 
 // This function is called when the user hovers the mouse over a node.
@@ -156,6 +171,7 @@ d3.select(self.frameElement).style("height", height + "px");
 //d3.select(self.frameElement).style("height", height + "px");
 // [From template]
 // Used to rotate the sunburst text.
+
     function getAngle(d) {
         //alert("angle");
         // Offset the angle by 90 deg since the '0' degree axis for arc is Y axis, while
