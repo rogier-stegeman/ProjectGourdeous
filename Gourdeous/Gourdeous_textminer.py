@@ -1,26 +1,24 @@
 # Gourdeous textminer heeft als functionaliteit om met behulp Entrez Programming Utilities (E-utilities)
-# pubmed artikelen te halen die 2 opgegeven uit de pubmed database en deze op te slaan in de
-# Gourdeous database.
+# pubmed artikelen op te halen die de 2 opgegeven keywords bevatten en kijkt of de artikelen bepaalde plant compounds bevatten.
+# deze plant compounds staan opgeslagen in de Gourdeous database.
+# De artikelen die 1 of meer van deze compounds bevatten worden opgeslagen in de Gourdeous textminer samen met de gevonden compounds.
+# Op basis van wat er in de database staat wordt er een jsonfile gemaakt die gebruikt wordt om de zoekresultaten
+# te visualiseren in de sunburst.
+
+#Author: Damian,Mark
+
 
 # De nodige importaties voor het textminning
 import time
 from Bio import Entrez
 from Bio import Medline
-
 import urllib2
 import mysql.connector
-
-from flask import Flask
-#import MySQLdb as my
+import MySQLdb as my
 import sys
-
-
 
 # De functies die worden uitgevoert als er op de website op de textmine knop wordt gedrukt
 def main(organisme,zoekwoord,email):
-    #file = open("testfile.txt", "w")
-    #file.write(organisme)
-    #file.close()
     data = entrez_search(organisme,zoekwoord,email)
     con = connector()
     db_vullen(data,organisme,zoekwoord,con)
@@ -30,10 +28,10 @@ def connector():
     try:
          conn = mysql.connector.connect(user='owe8_pg9', password='blaat1234',
                                    host='localhost',
-                                   database='owe8_pg9_test_db')
+                                   database='owe8_pg9')
          return conn
     except my.Error as e:
-        return(e)
+        print(e)
 
     except:
         print("Unknown error occurred")
@@ -74,7 +72,7 @@ def entrez_search(plant_name,health_benefit,email_adress):
              attempt += 1
              if attempt == 4:
                  sys.exit("more then 3 HTTPError have occured , terminating application ")
-             time.sleep(15)
+                 time.sleep(15)
         else:
            raise
     # lijst van opgehaalde artikelen.
@@ -96,11 +94,8 @@ def db_vullen(artikelen,organisme,zoekwoord, conn):
                     ''')
         chemical = cur.fetchone()
         while chemical is not None:
-            print(chemical[0])
             Chemicals.append(chemical[0])
             chemical = cur.fetchone()
-
-        print(len(Chemicals))
         #SQL query voor het ophalen van alle organismen in de database
         cur.execute('''
                     SELECT OrganismID FROM Organism
@@ -252,32 +247,26 @@ def db_vullen(artikelen,organisme,zoekwoord, conn):
                     cor.commit()
     # errors die kunnen optreden bij het bewerken van de database.
     except my.DataError as e:
-        #cur.rollback()
         print("DataError")
         print(e)
 
     except my.InternalError as e:
-        #cur.rollback()
         print("InternalError")
         print(e)
 
     except my.IntegrityError as e:
-        #cur.rollback()
         print("IntegrityError")
         print(e)
 
     except my.OperationalError as e:
-       # cur.rollback()
         print("OperationalError")
         print(e)
 
     except my.NotSupportedError as e:
-        #cur.rollback()
         print("NotSupportedError")
         print(e)
 
     except my.ProgrammingError as e:
-        #cur.rollback()
         print("ProgrammingError")
         print(e)
 
@@ -289,5 +278,11 @@ def db_vullen(artikelen,organisme,zoekwoord, conn):
     finally:
         cur.close()
         conn.close()
+    
+
+
+
+
+
 
 
