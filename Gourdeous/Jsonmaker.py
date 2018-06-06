@@ -1,10 +1,12 @@
-import mysql.connector
+from mysql import connector
+
 '''
 Name: Jsonmaker.py
 Author: Mark de Korte
 Function:
 Selects data from the database and puts it in Json format for the visualisation
 '''
+
 def main():
     Inlezen(Connection())
 
@@ -22,9 +24,18 @@ def Connection():
 
 def Inlezen(con):
     #Functie om de data uit de database te halen en in Json formaat te parsen.
-    counter=0
-    file = open("Jason.json", "wb")#File word geopend om de data in weg te schrijven
     cur = con.cursor(buffered=True)
+    cur.execute('''
+                SELECT SearchID
+                FROM Search
+                WHERE SearchID = (
+                SELECT MIN( SearchID )
+                FROM Search )
+                ''')
+    c = cur.fetchone()
+    counter= c[0]
+    counterOrganism = 0
+    file = open("/home/owe8_pg9/public_html/Gourdeous/static/js/Jason.json", "wb")#File word geopend om de data in weg te schrijven
     #SQL statement voor selecteren van de organismes uit de database
     cur.execute('''
                 SELECT *
@@ -36,69 +47,123 @@ def Inlezen(con):
     #Het aantal organismen in de database is de eerste iteratie
     for elements in c:
         if e == True:
-            file.write('''"name":"%s","Children":[{''', (c[0][1]))
+            file.write('''"name":"%s","children":[{''' % c[counterOrganism][1])
+            e = False
         else:
-            file.write('''",name":"%s","Children":[{''', (c[0][1]))
+            file.write(''',{"name":"%s","children":[{''' % c[counterOrganism][1])
         cur.execute('''
-                    SELECT Keyword,
+                    SELECT Keyword
                     FROM Search
                     WHERE OrganismID_ID=%s
-                    ''', (c[0][0]))
+                    ''', (c[0][0],))
         keywords = cur.fetchall()
-        w = True
         #Deze loop itereert over de keywords in de database
+        w = True
         for word in keywords:
-            counter += 1
             if w == True:
-                file.write('''"name": "%s","children":[{''')
+                file.write('''"name": "%s","children":[{''' % word)
                 w = False
             else:
-                file.write(''',"name": "%s","children":[{''')
+                file.write(''',{"name": "%s","children":[{''' % word)
             cur.execute('''
-                        SELECT Terms_found_TermsID,
-                        FROM Search
+                        SELECT Terms_found_TermsID
+                        FROM Search_Terms_Found
                         WHERE Search_SearchID=%s
                         ''', (counter,))
+            counter += 1
             terms = cur.fetchall()
-            t = True# deze constructie zorgt voorhet feit dat er bij de eerste entry geen komma geplaatsd word
+            # deze constructie zorgt voorhet feit dat er bij de eerste entry geen komma geplaatsd word
             #Deze loop itereert over de compounds in de database
-            for term in terms:
-                if t==True:
-                    file.write('''"name":%s,"size":%s,"articles":[''', (term, 100))
-                    t==False
-                else:
-                    file.write('''",name":%s,"size":%s,"articles":[''', (term, 100))
+            t = True
+            articleslist = []
+            compounds = []
+            for termID in terms:
+                print(compounds)
+                print(len(articleslist))
                 cur.execute('''
-                            SELECT Articles_ArticleID,
-                            FROM Articles_Terms
-                            WHERE Terms_found_TermsID=%s
-                            ''', (term,))
-                articles = cur.fetchall()
-                #Deze loop itereert over de artikelen in de database
-                for ID in articles:
+                            SELECT Terms
+                            FROM Terms_found
+                            WHERE TermsID=%s
+                            ''', (termID[0],))
+                term = cur.fetchone()
+                print(term)
+                if term[0] not in compounds:
+                    compounds.append(term[0])
                     cur.execute('''
-                                SELECT Pubmed_ID, Article_name,
-                                FROM Articles
-                                WHERE ArticleID=%s
-                                ''', (ID,))
+                                                SELECT TermsID
+                                                FROM Terms_found
+                                                WHERE Terms=%s
+                                                ''', (term[0],))
+                    termsID = cur.fetchone()
+                    cur.execute('''
+                                                SELECT Articles_ArticleID
+                                                FROM Articles_Terms
+                                                WHERE Terms_found_TermsID=%s
+                                                ''', (termsID[0],))
                     articles = cur.fetchall()
-                    a=True
-                    for  article in articles:
-                        if a==True:
-                            file.write('''["%s","www.pubmed.gov/%s",%s]''')
-                            a==False
-                        else:
-                            file.write(''',["%s","www.pubmed.gov/%s",%s]''')
+                    # print(articles)
+                    # Deze loop itereert over de artikelen in de database
+                    a = True
+                    articlelist = []
+                    for ID in articles:
+                        cur.execute('''
+                                                    SELECT Pubmed_ID, Article_name
+                                                    FROM Articles
+                                                    WHERE ArticleID=%s
+                                                    ''', (ID[0],))
+                        article = cur.fetchone()
+                        articlelist.append(article)
+                    articleslist.append(articlelist)
+                else:
+                    print("BRUH")
+                    indexarticles = compounds.index(term[0])
+                    cur.execute('''
+                                 SELECT TermsID
+                                 FROM Terms_found
+                                 WHERE Terms=%s
+                                 ''', (term[0],))
+                    termsID = cur.fetchone()
+                    cur.execute('''
+                                 SELECT Articles_ArticleID
+                                 FROM Articles_Terms
+                                 WHERE Terms_found_TermsID=%s
+                                 ''', (termsID[0],))
+                    articles = cur.fetchall()
+                    # print(articles)
+                    # Deze loop itereert over de artikelen in de database
+                    a = True
+                    for ID in articles:
+                        cur.execute('''
+                                     SELECT Pubmed_ID, Article_name
+                                     FROM Articles
+                                     WHERE ArticleID=%s
+                                     ''', (ID[0],))
+                        article = cur.fetchone()
+                        if article not in articleslist[indexarticles]:
+                            articleslist[indexarticles].append(article)
+
+                counterarticles = 0
+            for compound in compounds:
+                if t==True:
+                    file.write('''"name":"%s","size":%s,"articles":[''' % (compound, len(articleslist[counterarticles])))
+                    t=False
+                else:
+                    file.write(''',{"name":"%s","size":%s,"articles":[''' % (compound, len(articleslist[counterarticles])))
+                #print(articles)
+                #Deze loop itereert over de artikelen in de database
+                a = True
+                for art in articleslist[counterarticles]:
+                    if a==True:
+                        file.write('''["%s","https://www.ncbi.nlm.nih.gov/pubmed/%s"]''' % (art[1].replace('"', '').replace(",", ""), art[0].replace('"', '').replace(",", "")))
+                        a=False
+                    else:
+                        file.write(''',["%s","https://www.ncbi.nlm.nih.gov/pubmed/%s"]''' % (art[1].replace('"', '').replace(",", ""), art[0].replace('"', '').replace(",", "")))
+                counterarticles+=1
                 file.write("]}")
             file.write("]}")
         file.write("]}")
+        counterOrganism += 1
     file.write("]}")
     print(c)
     cur.close()
     con.close()
-
-
-
-
-
-main()
