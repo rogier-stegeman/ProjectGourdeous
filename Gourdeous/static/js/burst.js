@@ -48,7 +48,7 @@
         .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
 
 // Load the json file
-    d3.json("static/js/Jason2.json", function (error, root) {
+    d3.json("static/js/Jason3.json", function (error, root) {
 
         if (error) throw error;
         root = d3.hierarchy(root);
@@ -139,10 +139,12 @@ d3.select(self.frameElement).style("height", height + "px");
         //var link = "<a href='"+articles[i2]+"'>"+articles[i1]+"</a>";
         tableArray.push([[articles[i1],articles[i2]]]);
     }
+    /*
     for (var i2=1, i1=3, i3=0, tot=articles.length; i2 < tot; i2+=3,i3++, i1+=3) {
         index = i1 - 1;
         tableArray[i3].push(articles[index]);
     }
+    */
     console.log(tableArray);
     //alert(tableArray);
     //var testA = [["titel1","www.pubmed.gov/racecar_methanol_study",1000],["tital2","www.pubmed.gov/beer_destroys_fat_levels",500],["titel3","www.pubmed.gov/Bittergourd_tea_recipes",3021]];
@@ -159,6 +161,7 @@ function createTable(tableData) {
         var cell = document.createElement('td');
         console.log("cell: "+cellData);
         if (cellData.includes("www.")){
+            console.log(cellData);
             cell.appendChild(document.createTextNode(""));
         } else {
             cell.appendChild(document.createTextNode(cellData));
