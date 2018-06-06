@@ -7,6 +7,7 @@
 
 #Author: Damian,Mark
 
+
 # De nodige importaties voor het textminning
 import time
 from Bio import Entrez
@@ -243,7 +244,7 @@ def db_vullen(artikelen,organisme,zoekwoord, conn):
                                     INSERT INTO `Search_Terms_Found`(`Search_SearchID`, `Terms_found_TermsID`)
                                     VALUES(%s, %s);
                                     ''', (SearchID, terms_id[0]))
-                    conn.commit()
+                    cor.commit()
     # errors die kunnen optreden bij het bewerken van de database.
     except my.DataError as e:
         print("DataError")
@@ -278,6 +279,7 @@ def db_vullen(artikelen,organisme,zoekwoord, conn):
         cur.close()
         conn.close()
     
+
 
 
 

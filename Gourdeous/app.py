@@ -1,9 +1,6 @@
 from flask import Flask, render_template, url_for, request, redirect
 from  Gourdeous_textminer import connector,entrez_search,db_vullen
 from  Jsonmaker import Connection, Inlezen
-from flask import Flask
-
-
 
 app = Flask(__name__)
 

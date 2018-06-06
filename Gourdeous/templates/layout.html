@@ -14,11 +14,13 @@
 <head>
   {% block head %}
   <title>{% block title %}{% endblock %} - Gourdeous</title>
+  <!--<meta charset="UTF-8">-->
   <meta name="description" content="website description" />
   <meta name="keywords" content="website keywords, website keywords" />
   <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-      {% block scripts %} {% endblock %}
+      {% block style %}{% endblock %}
+      {% block scripts %}{% endblock %}
   {% endblock %}
 </head>
 
@@ -27,9 +29,9 @@
     <div id="header">
       <div id="logo">
         <div id="logo_text">
-          <!-- class="logo_colour", allows you to change the colour of the text -->
-          <h1><a href="index.html">Gourd<span class="logo_colour">eous</span></a></h1>
-          <h2>Textmining application with sunburst visualisation</h2>
+          <!-- class="logo_colour", allows you to change the colour of the text. -->
+          <h1><a href="{{ url_for('home') }}">Gourd<span class="logo_colour">eous</span></a></h1>
+          <h2>Text mining application with sunburst visualisation</h2>
         </div>
       </div>
       <div id="menubar">
