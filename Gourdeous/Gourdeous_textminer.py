@@ -3,9 +3,9 @@ import time
 from Bio import Entrez
 from Bio import Medline
 from urllib.error import HTTPError  # for Python 3
-import mysql.connector
+#import mysql.connector
 from flask import Flask
-import MySQLdb as my
+#import MySQLdb as my
 import sys
 
 

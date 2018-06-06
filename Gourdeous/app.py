@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, request, redirect, flash
 from Bio import Entrez
-import mysql.connector
+#import mysql.connector
 from Bio import Medline
 import Gourdeous_textminer
 
