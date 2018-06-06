@@ -4,7 +4,7 @@
 
     Authors: Rogier and Awan
 
-    Known bugs: Can't extract articles from the json file yet.
+    Known bugs: [SOLVED] on 06/06 - Can't extract articles from the json file yet.
  */
 
 //This function is called by the sunburst.html and contains all the code in this file since it has to run it all.
@@ -48,7 +48,7 @@
         .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
 
 // Load the json file
-    d3.json("static/js/Jason.json", function (error, root) {
+    d3.json("static/js/Jason3.json", function (error, root) {
 
         if (error) throw error;
         root = d3.hierarchy(root);
@@ -60,6 +60,7 @@
             .data(partition(root).descendants())
             .enter().append("g");
 
+        //Add mouse interaction
         var path = g.append("path")
             .attr("d", arc)
             .attr("name",function (name) {return name.data.name})
@@ -76,6 +77,7 @@
               .style("stroke-width","1")
         });
 
+        //Allow for rotating text
         var text = g.append("text")
             .attr("transform", function (d) {
                 if (d.depth > 0) {
@@ -91,16 +93,10 @@
             .text(function (d) {
                 return d.data.name
             })
-            .attr("pointer-event", "none")
-
-        //.append("title",function(name) {return name.data.name + "\n" + formatNumber(name.value)})
-        //.text(function(name) { /*alert("Q1"+ name+" "+name)*/;return name.data.name + "\n" + formatNumber(name.value)
-        //.append("name",function (name) {return name.data.name})
-        //.text(function (name) {return name.data.name})
-        // ;})
+            .attr("pointer-event", "none");
 
         // This function is called when a user double clicks on a node. It will make this node the new center of the sunburst
-// by zooming in on it and adjusting the other nodes.
+        // by zooming in on it and adjusting the other nodes.
         function zoom(d) {
             text.transition().attr("opacity", 0);
             path.transition()
@@ -128,6 +124,7 @@
 
 d3.select(self.frameElement).style("height", height + "px");
 
+// Shows the acrticles related to a compound.
   function showArticles() {
     var searchName = d3.select(this).attr("name");
     var articleArray = d3.select(this).attr("articles");
