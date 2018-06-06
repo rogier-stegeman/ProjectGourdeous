@@ -27,7 +27,7 @@ def submitter():
     organisme = request.form['searchPlant']
     zoekwoord = request.form['searchHealth']
     email = request.form['searchMail']
-    Gourdeous_textminer.main(organisme,zoekwoord,email)
+   # Gourdeous_textminer.main(organisme, zoekwoord, email)
     return render_template("Done.html")
 
 
