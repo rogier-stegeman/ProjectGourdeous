@@ -43,11 +43,11 @@ function myFunction() {
         <div id="article-field">
             <h2>Articles:</h2><br>
             <div id="article-field-list">
+                Select a compound to show articles.
             </div>
             </div>
             <div id="vis"></div>
             <script src="{{ url_for('static', filename='js/burst.js') }}"></script>
-
         </div>
     <div style="width: 600px;">
      <p>
@@ -61,10 +61,16 @@ Double click on the slices in the sunburst to zoom in.<br>
 <br><br>
          <b>Highlight</b><br>
          1. Highlight by typing the word you’re looking for in the searchbox.<br>
+         &emsp;&emsp;> Words stay highlighted even if you change the text, this allows <br>
+         &emsp;&emsp;> for selecting multiple words at the same time.<br>
+         &emsp;&emsp;> To deselect the words simply move the mouse over the sunburst. <br>
          2. Highlight by hoovering over the sunburst. The corresponding words wil get the yellow highlight color.<br><br>
 
 <b>Get articles</b><br>
-Click a slice. The articles are shown on the right side of the page.
+Click on a compound (outer circle) to load the related articles. The articles are shown on the right side of the page.<br>
+        <br> <b>Why are there black bars where the names should be?</b><br>
+These nodes have such a low score they are most likely irrelevant. This is why the name can't be read.<br>
+         If you desire to see the names anyways you can do so by zooming in on the health benefit node they belong to.
 </p>
 </div>
 {% endblock %}
