@@ -26,7 +26,13 @@ function myFunction() {
 </script>
 {% endblock %}
 {% block content %}
+
     <div style="width: 200px" class="outer">
+        <h1>
+        Visualisation
+    </h1>
+
+
         <form>
             <input type="text" value="Enter text" id="highlightWord" style="width: 200px">
             <!-- Deprecated -->
@@ -50,7 +56,24 @@ function myFunction() {
             <script src="{{ url_for('static', filename='js/burst.js') }}"></script>
 
         </div>
-    <script>
+    <div style="width: 600px;">
+     <p>
+The first layer of the sunburst show different organisms. The second layer contains health effects en the third layer contains compounds.
 
-</script>
+<br><b><u>How to use:</u></b><br>
+
+         <b>Zoom</b><br>
+Double click on the sunburst .
+<br>
+         <b>Highlight</b>
+         <ol>
+    <li>Highlight by typing the word you’re looking for in the searchbox.</li>
+    <li>Highlight by hoovering over the sunburst. The corresponding words wil get the yellow highlight color.</li>
+</ol>
+
+
+<b>Get articles</b>
+Click a slice. The articles are shown on the right side of the page.
+</p>
+</div>
 {% endblock %}
