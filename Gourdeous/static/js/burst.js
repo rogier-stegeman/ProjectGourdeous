@@ -136,19 +136,10 @@ d3.select(self.frameElement).style("height", height + "px");
     var articles = articleArray.split(",");
     var tableArray = [];
     var index = 0;
-    for (var i1=0,i2=1,  tot=articles.length; i1 < tot; i1+=3,i2+=3) {
+    for (var i1=0,i2=1,  tot=articles.length; i1 < tot; i1+=2,i2+=2) {
         //var link = "<a href='"+articles[i2]+"'>"+articles[i1]+"</a>";
         tableArray.push([[articles[i1],articles[i2]]]);
     }
-    /*
-    for (var i2=1, i1=3, i3=0, tot=articles.length; i2 < tot; i2+=3,i3++, i1+=3) {
-        index = i1 - 1;
-        tableArray[i3].push(articles[index]);
-    }
-    */
-    console.log(tableArray);
-    //alert(tableArray);
-    //var testA = [["titel1","www.pubmed.gov/racecar_methanol_study",1000],["tital2","www.pubmed.gov/beer_destroys_fat_levels",500],["titel3","www.pubmed.gov/Bittergourd_tea_recipes",3021]];
     createTable(tableArray);
 }
 
@@ -157,16 +148,14 @@ function createTable(tableData) {
     var tableBody = document.createElement('tbody');
 
     tableData.forEach(function(rowData) {
+
         var row = document.createElement('tr');
         rowData.forEach(function(cellData) {
         var cell = document.createElement('td');
-        console.log("cell: "+cellData);
-        if (cellData.includes("www.")){
-            console.log(cellData);
-            cell.appendChild(document.createTextNode(""));
-        } else {
-            cell.appendChild(document.createTextNode(cellData));
-        }
+        var p = document.createElement('p');
+        p.innerHTML = "<a href="+cellData[1]+" title="+cellData[0]+">"+cellData[0]+"</a>";
+        cell.appendChild(p);
+        //cell.appendChild(document.createTextNode(cellData));
         row.appendChild(cell);
 
     });
