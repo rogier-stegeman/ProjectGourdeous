@@ -6,7 +6,7 @@
 
     Author: Bram
 
-    Last update: 02/06/2018
+    Last update: 06/06/2018
 -->
 <!-- Flask/Jinja template code-->
 {% extends "layout.html" %}
@@ -15,33 +15,18 @@
     <h1>
         Input page
     </h1>
+<!-- In this page the form action allows the information put in by the user to be passed on
+    to the application. in the searchPlant, plant data will be transmitted. in the searchHealth health data will
+    be transmitted. in the SearchMail the users mail will be transmitted for the Pubmed search.-->
     <center>
         <p>Please insert searchterms and your email.</p>
-        <form action="../textmine" method="POST">
-            <input type="text" name="search1" value="plant">
-            <input type="text" name="search2" value="health_effect">
-            <input type="text" name="search3" value="e-mail">
+        <form action="Done" method="POST" name="sequentie_text" id="form1">
+            <input type="text" name="searchPlant" value="plant">
+            <input type="text" name="searchHealth" value="health_effect">
+            <input type="text" name="searchMail" value="e-mail">
             <input type="submit" name="submitter" value="GoMine">
         </form>
-        <form>
-            <select action="../textmine" name= organisms method="GET">
 
-                {% for organism in organisms %}
-                <option value= "{{organism}}" SELECTED>{{organism}}</option>"
-                {% endfor %}
-            </select>
-            <!--<select name= compounds method="GET" action="/textmine">-->
-                <!--{% for compound in compounds %}-->
-                <!--<option value= "{{compound}}" SELECTED>{{compound}}</option>"-->
-                <!--{% endfor %}-->
-            <!--</select>-->
-            <select action="../textmine" name= health_effects method="GET" >
-                {% for health_effect in health_effects %}
-                <option value= "{{health_effect}}" SELECTED>{{health_effect}}</option>"
-                {% endfor %}
-            </select>
-            <input type="submit" name="databasser" value="Pull from DB">
-        </form>
     </center>
 
 {% endblock %}

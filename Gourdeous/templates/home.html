@@ -1,31 +1,18 @@
-<!--
-    Description:
-        Html for the homepage of the website. Provides some background information.
-
-    Known bugs:
-
-    Author: Bram
-
-    Last update: 02/06/2018
--->
-<!-- Flask/Jinja template code-->
 {% extends "layout.html" %}
-{% block title %}Homepage{% endblock %}
-{% block content %}
-    <div >
 
-    <p>Bitter gourd (De sopropo, balsempeer, bittermeloen of paré) wordt in de traditionele
-    kruidengeneeskunde gebruikt om verschillende kwalen te behandelen, zoals bijvoorbeeld
-    diabetes. Om erachter te komen of deze claims waar zijn en om te kijken welke andere
-    gezondheidsvoordelen bitter gourd of andere planten zoals yams (eetbare wortelknollen)
-    hebben, zal er literatuuronderzoek gedaan moeten worden. Hierin zal ook gekeken worden naar
-    welke delen van een plant voor een bepaalde gezondheidseffect zorgen en welke stoffen
-    binnen een plant voor een bepaalde gezondheidseffect zorgen. Door de stoffen van
-    verschillende planten te vergelijken kan er gekeken worden of ze een gemeenschappelijke stof
-    bevatten die verantwoordelijk kan zijn voor een bepaalde gezondheidseffect die de planten
-    hebben met deze stof. Deze stof kan dan bijvoorbeeld uit de plant geïsoleerd worden en zo kan
-    er getest worden of de geïsoleerde stof ook daadwerkelijk de voorspelde werking heeft. Alleen
-    bitter gourd heeft al 945 gepubliceerde artikelen op Pubmed.
+{% block title %}{% block title1 %}Home{% endblock %}{% block title2 %}page{% endblock %}{% endblock %}
+
+{% block content %}
+    <div >Homepage</div> <!-- Dit is de homepage. hierin staat een deel van de visuele opbouw, namelijk waar de image staat. -->
+    <div>
+    <p><img src="static/imgs/worms.jpg" alt="WormsAreGreat" style="width: 300px; height: 250px; float: right">
+        Gourdeous textmining application is an application that was made to answer the question which compounds in bitter gourd have a anti diabetic effect.
+        The application also looks at compounds in yam that have a anti diabetic effect and compares them to the compounds in bitter gourd to see if there is any overlap.
+        The compounds of these plants and their health effect are visualised in a sunburst.
+        This application is also capable to expend the sunburst with new data by using the data mine function to look at other plants and health effects.
+        On the textmine page you will be able to expand the database by performing textmining with additional organisms and health effects that you can input yourself.
+        The help page contains additional information about the application, how to work with the application, and a way to contact us for additional support if you require help.
     </p>
     </div>
+
 {% endblock %}
