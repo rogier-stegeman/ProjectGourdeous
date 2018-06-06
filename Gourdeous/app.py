@@ -1,8 +1,13 @@
-from flask import Flask, render_template, url_for, request, redirect, flash
+from flask import Flask, render_template, url_for, request, redirect
+from  Gourdeous_textminer import connector,entrez_search,db_vullen
+import time
 from Bio import Entrez
-import mysql.connector
 from Bio import Medline
-import Gourdeous_textminer
+import urllib2
+import mysql.connector
+from flask import Flask
+import MySQLdb as my
+import sys
 
 app = Flask(__name__)
 
@@ -27,7 +32,11 @@ def submitter():
     organisme = request.form['searchPlant']
     zoekwoord = request.form['searchHealth']
     email = request.form['searchMail']
-    Gourdeous_textminer.main(organisme,zoekwoord,email)
+    data = entrez_search(organisme,zoekwoord,email)
+    con = connector()
+    #return data
+    db_vullen(data, organisme, zoekwoord, con)
+    #Gourdeous_textminer.main(organisme, zoekwoord, email)
     return render_template("Done.html")
 
 
