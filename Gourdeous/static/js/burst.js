@@ -153,6 +153,7 @@ d3.select(self.frameElement).style("height", height + "px");
     //var testA = [["titel1","www.pubmed.gov/racecar_methanol_study",1000],["tital2","www.pubmed.gov/beer_destroys_fat_levels",500],["titel3","www.pubmed.gov/Bittergourd_tea_recipes",3021]];
     createTable(tableArray);
 }
+
 function createTable(tableData) {
     var table = document.createElement('table');
     var tableBody = document.createElement('tbody');
@@ -180,6 +181,7 @@ function createTable(tableData) {
     console.log(table);
     return table;
 }
+
 
 
 // This function is called when the user hovers the mouse over a node.
