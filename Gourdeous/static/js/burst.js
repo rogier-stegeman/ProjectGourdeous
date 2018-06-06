@@ -131,6 +131,7 @@ d3.select(self.frameElement).style("height", height + "px");
   function showArticles() {
     var searchName = d3.select(this).attr("name");
     var articleArray = d3.select(this).attr("articles");
+    console.log(articleArray);
     //alert(searchName+" - "+articleArray);
     var articles = articleArray.split(",");
     var tableArray = [];
