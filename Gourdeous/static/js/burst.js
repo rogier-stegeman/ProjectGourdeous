@@ -153,7 +153,33 @@ d3.select(self.frameElement).style("height", height + "px");
     //var testA = [["titel1","www.pubmed.gov/racecar_methanol_study",1000],["tital2","www.pubmed.gov/beer_destroys_fat_levels",500],["titel3","www.pubmed.gov/Bittergourd_tea_recipes",3021]];
     createTable(tableArray);
 }
+function createTable(tableData) {
+    var table = document.createElement('table');
+    var tableBody = document.createElement('tbody');
 
+    tableData.forEach(function(rowData) {
+        var row = document.createElement('tr');
+        rowData.forEach(function(cellData) {
+        var cell = document.createElement('td');
+        console.log("cell: "+cellData);
+        if (cellData.includes("www.")){
+            cell.appendChild(document.createTextNode(""));
+        } else {
+            cell.appendChild(document.createTextNode(cellData));
+        }
+        row.appendChild(cell);
+
+    });
+
+    tableBody.appendChild(row);
+  });
+
+  table.appendChild(tableBody);
+  document.getElementById("article-field").appendChild(table);
+    //alert(table);
+    console.log(table);
+    return table;
+}
 
 
 // This function is called when the user hovers the mouse over a node.
