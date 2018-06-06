@@ -14,15 +14,27 @@ Articles;
 uiteindelijk ERD;
 Articles;
 - ArticleID, Pubmed_ID, Article_name, Article_author, Article_year, Article_language
+  #Er is voor deze wijziging gekozen omdat er meer Informatie over de artikelen moest worden opgeslagen
 Articles_Terms;
 - Terms_found_TermsID(foreign key), Articles_ArticleID(foreign key)
+  #Dit is een tussentabel die niet voorkwam in het ontwerp maar die voor een non-redundante oplossing wel nodig was voor de database
 Chemicals;
 - chemical_ID, chemical_name
+  #Dit is een geheel nieuwe en losse tabel, in deze tabel staan circa 11.000 compounds opgeslagen die worden gebruikt bij de textmining.
 Organism;
 - Organism, OrganismID
 Search;
 - SearchID, Keyword, OrganismID_ID(foreign key)
+  #Hier heb ik een foreign key tabel toegevoegd om de keywords te kunnen linken aan de organismes
 Search_terms_found;
-- Search_SearchID(foreign key), Terms_found_TermsID
+- Search_SearchID(foreign key), Terms_found_TermsID(foreign key)
 Terms_found
 - TermsID, Terms
+
+De Database is enigszins anders ingericht, omdat het ontwerp van de database zonder echte kennis (logisch) van een sunburst is gebouwd.
+Omdat een Sunburst vanuit de middelste cirkel naar de buitenste moet worden opgebouwd,
+is er voor de hieriarchie Organisme>Search>Terms>Articles
+Waarbij organisme de bitter gourd en de yam en eventuele andere planten in de eerste ring representeerd,
+Search representeerd de Health benefit in de 2e ring,
+en terms zijn de compounds in de 3e ring,
+de Articles worden in een aparte lijst naast de sunburst weergegeven.
