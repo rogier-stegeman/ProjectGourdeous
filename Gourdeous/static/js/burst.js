@@ -48,7 +48,7 @@
         .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
 
 // Load the json file
-    d3.json("static/js/Jason3.json", function (error, root) {
+    d3.json("static/js/Jason.json", function (error, root) {
 
         if (error) throw error;
         root = d3.hierarchy(root);
