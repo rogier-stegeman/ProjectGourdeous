@@ -18,8 +18,14 @@
 <!-- In this page the form action allows the information put in by the user to be passed on
     to the application. in the searchPlant, plant data will be transmitted. in the searchHealth health data will
     be transmitted. in the SearchMail the users mail will be transmitted for the Pubmed search.-->
+
+        <p>Please insert search terms and your email.<br>
+        The requirement of the first field is the organism/plant you wish to research. example; Banana.<br>
+        The requirement of the second field is the health effect you wish to search for. example; Calcium deficiency<br>
+        The requirement of the third fiel is you own email adres.<br>
+        The Text mine application will need this email adres to communicate to the Pubmed database.<br>
+        This sunburst will update once the Textmining application is finished this might take a few minutes.</p>
     <center>
-        <p>Please insert searchterms and your email.</p>
         <form action="Done" method="POST" name="sequentie_text" id="form1">
             <input type="text" name="searchPlant" value="plant">
             <input type="text" name="searchHealth" value="health_effect">
