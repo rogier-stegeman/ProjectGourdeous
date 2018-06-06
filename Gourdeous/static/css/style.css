@@ -1,3 +1,14 @@
+/* Cascading Style Sheet for the Gourdeous website.
+    The file is divided into three parts:
+    -Own css
+    -Template css
+    -Sunburst css
+
+    Author: Rogier
+ */
+
+/* Own CSS */
+
 #article-field{
     width: 500px;
     float: right;
@@ -5,7 +16,7 @@
 
 #cook-top {
     height: 400px;
-    width: 878; /* 878 */
+    width: 878px; /* 878 */
     position: relative;
     right: 26px;
     line-height: 400px;
@@ -43,6 +54,8 @@
 #vis{
     width: 700px;
 }
+
+
 /*Template css*/
 html{
     height: 100%;
