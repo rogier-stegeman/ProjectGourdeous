@@ -135,7 +135,7 @@ function createTable(tableData) {
     //alert(table);
     console.log(table);
     return table;
-}
+}   
 
 
 // This function is called when a user double clicks on a node. It will make this node the new center of the sunburst
