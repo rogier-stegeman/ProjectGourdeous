@@ -6,10 +6,15 @@
 import time
 from Bio import Entrez
 from Bio import Medline
+<<<<<<< HEAD
 import urllib2
 import mysql.connector
+=======
+from urllib.error import HTTPError  # for Python 3
+#import mysql.connector
+>>>>>>> bdb52c3a11900d3732ec81e45b2024ff0f4aa78b
 from flask import Flask
-import MySQLdb as my
+#import MySQLdb as my
 import sys
 
 
@@ -288,8 +293,11 @@ def db_vullen(artikelen,organisme,zoekwoord, conn):
         cur.close()
         conn.close()
 
+<<<<<<< HEAD
 #main()
 
 
 
 
+=======
+>>>>>>> bdb52c3a11900d3732ec81e45b2024ff0f4aa78b

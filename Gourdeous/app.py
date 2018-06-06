@@ -2,12 +2,18 @@ from flask import Flask, render_template, url_for, request, redirect
 from  Gourdeous_textminer import connector,entrez_search,db_vullen
 import time
 from Bio import Entrez
+<<<<<<< HEAD
 from Bio import Medline
 import urllib2
 import mysql.connector
 from flask import Flask
 import MySQLdb as my
 import sys
+=======
+#import mysql.connector
+from Bio import Medline
+
+>>>>>>> bdb52c3a11900d3732ec81e45b2024ff0f4aa78b
 
 app = Flask(__name__)
 
@@ -37,7 +43,7 @@ def submitter():
     #return data
    # db_vullen(data, organisme, zoekwoord, con)
     #Gourdeous_textminer.main(organisme, zoekwoord, email)
-    return render_template("Done.html")
+
 
 
 
