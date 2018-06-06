@@ -1,6 +1,24 @@
 {% extends 'layout.html' %}
+{% block style %}
+<style>
+    #menubar{
+        width: 878px;
+        margin-left: 332px;
+        width: 866px;
+    }
+    #site_content{
+        width: 840px;
+        padding-right: 0px;
+        padding-top: 0px;
+    }
+    #footer{
+        margin-left: 332px;
+        width: 866px;
+        padding-top: 20px;
+    }
+</style>
+{% endblock %}
 {% block title %}Cooking{% endblock %}
-
 {% block content %}
     <div id="cook-top">
     <div id="cook-top-bg"></div>
@@ -8,7 +26,6 @@
             <span style="vertical-align: center; padding-left: 20px"><h3 style="display: inline; text-align: center">Cooking with... </h3><h1 id="Gourdon">Gourdon Yamsay!</h1></span>
             <img id="gordon-pic" src="static/imgs/gordon.jpg">
         </div>
-
     </div>
     <br><br>
     <h2>Recipe of the month:</h2>
