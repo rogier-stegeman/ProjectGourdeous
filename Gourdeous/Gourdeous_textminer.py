@@ -10,9 +10,6 @@ from Bio import Medline
 import urllib2
 import mysql.connector
 
-from urllib.error import HTTPError  # for Python 3
-#import mysql.connector
-
 from flask import Flask
 #import MySQLdb as my
 import sys
